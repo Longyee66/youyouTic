@@ -9,15 +9,23 @@
     <artifactId>youyouTic-app</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
+
+
     <modules>
         <module>youyou-api</module>
         <module>youyou-user</module>
+        <module>youyou-common</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <springCloud.alibaba.version>2022.0.0.0-RC2</springCloud.alibaba.version>
-        <spring-boot>3.2.0</spring-boot>
+        <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
+        <spring-cloud-starter-bootstrap.version>3.0.3</spring-cloud-starter-bootstrap.version>
+        <dubbo.version>3.2.9</dubbo.version>
+        <lombok.version>1.18.30</lombok.version>
+        <mysql.version>8.0.27</mysql.version>
+        <mybatis-plus.version>3.5.3</mybatis-plus.version>
+        <test.version>4.13.2</test.version>
     </properties>
 
     <dependencyManagement>
@@ -25,16 +33,26 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot}</version>
+                <version>3.0.5</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${springCloud.alibaba.version}</version>
+                <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

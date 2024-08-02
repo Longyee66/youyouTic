@@ -1,0 +1,47 @@
+#服务端口
+server:
+  port: 8880
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.32.3:3306/youyouTic?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123456
+  data:
+    redis:
+      host: 192.168.32.3
+      port: 6379
+      lettuce:
+        pool:
+          min-idle: 10
+          max-active: 100
+          max-idle: 10
+  # nacos注册中心
+  application:
+    name: youyou-user-provider
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.32.3:8848
+        namespace: ddddfd2a-ca0d-46a8-ba2e-f74927da2350     #命名空间
+
+#mybatis-plus配置
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+    # 设置别名包扫描路径，通过该属性可以给包中的类注册别名
+  type-aliases-package: com.youyou.common.user.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+# doubbo注册地址
+dubbo:
+  application:
+    name: dubbo-userProvider
+    qos-enable: false         #是否使用telnet查看状态
+  registry:
+    address: nacos://192.168.32.3:8848?namespace=ddddfd2a-ca0d-46a8-ba2e-f74927da2350
+    id: nacos-registry
+  protocol:                   #协议
+    name: dubbo
+    port: -1
