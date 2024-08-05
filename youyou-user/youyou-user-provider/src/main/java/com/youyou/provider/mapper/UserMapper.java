@@ -1,7 +1,8 @@
 package com.youyou.provider.mapper;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youyou.common.user.entity.UserDO;
+import com.youyou.provider.entity.UserDO;
 import org.apache.ibatis.annotations.Mapper;
 
 

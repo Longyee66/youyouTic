@@ -7,11 +7,11 @@
         <version>1.0</version>
     </parent>
 
-    <groupId>com.youyou.common</groupId>
-    <artifactId>youyou-common</artifactId>
+    <groupId>com.youyou.moudules</groupId>
+    <artifactId>youyou-modules</artifactId>
     <packaging>jar</packaging>
 
-    <name>youyou-common</name>
+    <name>youyou-modules</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -20,8 +20,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 </project>

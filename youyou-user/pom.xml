@@ -27,5 +27,10 @@
       <artifactId>youyou-common</artifactId>
       <version>1.0</version>
     </dependency>
+    <dependency>
+      <groupId>com.youyou.moudules</groupId>
+      <artifactId>youyou-modules</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
 </project>

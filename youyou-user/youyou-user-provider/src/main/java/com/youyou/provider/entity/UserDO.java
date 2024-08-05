@@ -1,4 +1,4 @@
-package com.youyou.common.user.entity;
+package com.youyou.provider.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -16,7 +16,7 @@ import java.sql.Date;
  */
 @TableName("t_user")
 @Data
-public class UserDO {
+public class UserDO implements Serializable{
 
     //用户id
     @TableId(type = IdType.INPUT)

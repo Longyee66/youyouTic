@@ -7,11 +7,11 @@
         <version>1.0</version>
     </parent>
 
-    <groupId>com.youyou.common</groupId>
-    <artifactId>youyou-common</artifactId>
+    <groupId>com.youyou.redis</groupId>
+    <artifactId>youyou-redis-starter</artifactId>
     <packaging>jar</packaging>
 
-    <name>youyou-common</name>
+    <name>youyou-redis-starter</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -21,7 +21,23 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.0.4</version>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

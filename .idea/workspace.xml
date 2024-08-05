@@ -4,36 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ef75476-34e0-48b6-b285-21b82ca7e43a" name="Changes" comment="基础模块">
-      <change afterPath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ConsumerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/controller/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-api/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-api/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-common/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/user/dto/UserDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/user/entity/News.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/user/entity/UserDO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/UserProviderApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/mapper/UserMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/test/java/com/youyou/provider/UserApplicationTest.java" afterDir="false" />
+    <list default="true" id="7ef75476-34e0-48b6-b285-21b82ca7e43a" name="Changes" comment="基础模块--数据库调通测试">
+      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/utils/BuildUserKeyUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/utils/CopyBeanUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-modules/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/result/AppResultCode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/result/PageResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/result/Result.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-redis-starter/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-redis-starter/src/main/java/com/youyou/redis/config/RedisAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-redis-starter/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/logback-spring.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ApiSpringApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ApiSpringApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-api/target/classes/com/youyou/api/ApiSpringApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ConsumerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ConsumerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/user/dto/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/UserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/user/entity/News.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/News.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/user/entity/UserDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/UserDO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/youyou-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-interface/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-interface/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-interface/src/test/java/com/youyou/interface/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/test/java/com/youyou/provider/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/UserProviderApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/UserProviderApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +48,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="3a97a2f22e24249fcb578e864b47956a34214a35" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MavenImportPreferences">
@@ -66,7 +70,7 @@
     </option>
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2joFgHtDF553QYoMkWQ46393Mf1" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -86,16 +90,17 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "jdk.selected.JAVA_MODULE": "17",
-    "last_opened_file_path": "D:/000java/youyouTic/youyouTic-app/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider",
+    "last_opened_file_path": "D:/000java/youyouTic/youyouTic-app/youyou-redis-starter/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.55284554",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
-    "spring.configuration.checksum": "11b2d5e922a489fcbd33deeb91ae41a1",
+    "settings.editor.selected.configurable": "fileTemplates",
+    "spring.configuration.checksum": "9dfd69e0db0d80150b86751f28bb28a8",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -109,6 +114,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\000java\youyouTic\youyouTic-app\youyou-redis-starter\src\main\resources" />
       <recent name="D:\000java\youyouTic\youyouTic-app\youyou-user\youyou-user-provider\src\main\java\com\youyou\provider" />
       <recent name="D:\000java\youyouTic\youyouTic-app\youyou-user\youyou-user-provider\src\main\resources" />
     </key>
@@ -120,7 +126,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.UserApplicationTest.getUserById">
+  <component name="RunManager" selected="Spring Boot.UserProviderApplication-1.0.0">
     <configuration name="UserApplicationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="youyou-user-provider" />
       <extension name="coverage">
@@ -169,6 +175,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ApiSpringApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="youyou-api" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.youyou.api.ApiSpringApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.youyou.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UserProviderApplication-1.0.0" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
       <module name="youyou-user-provider" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.youyou.provider.UserProviderApplication" />
@@ -184,9 +203,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.ApiSpringApplication" />
+        <item itemvalue="Spring Boot.UserProviderApplication-1.0.0" />
         <item itemvalue="JUnit.UserApplicationTest.getUserById" />
         <item itemvalue="JUnit.UserApplicationTest" />
-        <item itemvalue="Spring Boot.UserProviderApplication-1.0.0" />
+        <item itemvalue="Spring Boot.ApiSpringApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -207,7 +228,10 @@
       <workItem from="1722320687059" duration="10316000" />
       <workItem from="1722407478524" duration="9454000" />
       <workItem from="1722583293216" duration="3871000" />
-      <workItem from="1722587334181" duration="4880000" />
+      <workItem from="1722587334181" duration="16172000" />
+      <workItem from="1722658043017" duration="1621000" />
+      <workItem from="1722659904794" duration="15203000" />
+      <workItem from="1722758729622" duration="11078000" />
     </task>
     <task id="LOCAL-00001" summary="基础模块">
       <created>1722048102338</created>
@@ -216,7 +240,14 @@
       <option name="project" value="LOCAL" />
       <updated>1722048102338</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="基础模块--数据库调通测试">
+      <created>1722606142623</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1722606142623</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -235,6 +266,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="基础模块" />
-    <option name="LAST_COMMIT_MESSAGE" value="基础模块" />
+    <MESSAGE value="基础模块--数据库调通测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="基础模块--数据库调通测试" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

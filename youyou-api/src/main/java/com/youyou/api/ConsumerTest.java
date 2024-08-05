@@ -1,10 +1,9 @@
 package com.youyou.api;
 
-import com.youyou.common.user.dto.UserDTO;
 import com.youyou.interfaces.IUserRPCSService;
+import com.youyou.moudules.user.dto.UserDTO;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 /**
  * Author longYee
@@ -12,14 +11,14 @@ import org.springframework.stereotype.Component;
  * Description:
  * Version: 1.0
  */
-@Component
+//@Component
 public class ConsumerTest implements CommandLineRunner {
-    @DubboReference
+    @DubboReference(version = "1.0.0")
     private IUserRPCSService userRPCSService;
 
     @Override
     public void run(String... args) throws Exception {
-        UserDTO user = userRPCSService.getUserId(1L);
+        UserDTO user = userRPCSService.getUserById(1L);
         System.out.println("Receive result ======> " + user);
 
 //        new Thread(()-> {

@@ -1,4 +1,4 @@
-package com.youyou.common.user.dto;
+package com.youyou.moudules.user.dto;
 
 import lombok.Data;
 

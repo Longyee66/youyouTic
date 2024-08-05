@@ -1,11 +1,12 @@
 package com.youyou.interfaces;
 
-import com.youyou.common.user.dto.UserDTO;
+
+import com.youyou.moudules.user.dto.UserDTO;
 
 /**
  * Author: long
  * Description:
  */
 public interface IUserRPCSService {
-    UserDTO getUserId(Long id);
+    UserDTO getUserById(Long id);
 }

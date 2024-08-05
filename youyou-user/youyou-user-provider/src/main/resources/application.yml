@@ -17,6 +17,11 @@ spring:
           min-idle: 10
           max-active: 100
           max-idle: 10
+#  redis数据过期时间
+redis:
+  user:
+    cache:
+      expiration: 60
   # nacos注册中心
   application:
     name: youyou-user-provider

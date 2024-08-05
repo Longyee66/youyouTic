@@ -1,7 +1,8 @@
 package com.youyou.api.controller;
-
-import com.youyou.common.user.dto.UserDTO;
 import com.youyou.interfaces.IUserRPCSService;
+import com.youyou.moudules.result.AppResultCode;
+import com.youyou.moudules.result.Result;
+import com.youyou.moudules.user.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +21,14 @@ public class UserController {
     @DubboReference(version = "1.0.0")
     private IUserRPCSService userRPCSService;
 
-    @RequestMapping("/query")
-    public UserDTO getUser(Long userId){
-        log.info("新版本使用：{}",userId);
-        return userRPCSService.getUserId(userId);
+    @RequestMapping("/queryUser")
+    public Result getUser(Long userId){
+        log.info("查询用户id：{}",userId);
+        UserDTO user = userRPCSService.getUserById(userId);
+        if (null == user){
+            return Result.error("数据不存在");
+        }
+        return Result.success(user);
     }
+
 }
