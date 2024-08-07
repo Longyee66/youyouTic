@@ -39,6 +39,9 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
 
+you:
+  autho: youyou
+
 # doubbo注册地址
 dubbo:
   application:

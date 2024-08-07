@@ -10,7 +10,6 @@
         <module name="youyou-modules" />
         <module name="youyou-redis-starter" />
         <module name="youyou-api" />
-        <module name="youyou-common" />
         <module name="youyou-user-provider" />
         <module name="youyou-user-interface" />
       </profile>

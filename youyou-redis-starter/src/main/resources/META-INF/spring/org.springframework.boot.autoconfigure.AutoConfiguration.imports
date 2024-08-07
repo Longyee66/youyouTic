@@ -1,1 +1,3 @@
 com.youyou.redis.config.RedisAutoConfiguration
+com.youyou.redis.build.SMSCacheKeyBuilder
+com.youyou.redis.build.UserCacheKeyBuilder

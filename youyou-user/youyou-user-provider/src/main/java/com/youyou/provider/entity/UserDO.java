@@ -16,7 +16,7 @@ import java.sql.Date;
  */
 @TableName("t_user")
 @Data
-public class UserDO implements Serializable{
+public class UserDO{
 
     //用户id
     @TableId(type = IdType.INPUT)
@@ -31,7 +31,7 @@ public class UserDO implements Serializable{
     //真实姓名
     private String trueName;
 
-    //性别
+    //性别 1-男 0-女
     private Integer sex;
 
     //创建时间

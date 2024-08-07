@@ -1,6 +1,9 @@
 package com.youyou.provider.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,7 +17,11 @@ import java.sql.Date;
  */
 @TableName("t_sms")
 @Data
-public class News implements Serializable {
+@Builder
+public class SmsDO {
+
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
 
     //验证码code
     private Integer code;

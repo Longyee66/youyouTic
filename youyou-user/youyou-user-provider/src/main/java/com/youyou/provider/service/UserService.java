@@ -1,11 +1,15 @@
 package com.youyou.provider.service;
 
 import com.alibaba.fastjson2.JSON;
+import com.youyou.common.enums.StatusEnum;
 import com.youyou.common.utils.BuildUserKeyUtils;
 import com.youyou.common.utils.CopyBeanUtils;
+import com.youyou.moudules.user.dto.LoginChaeckDTO;
 import com.youyou.moudules.user.dto.UserDTO;
 import com.youyou.provider.entity.UserDO;
+import com.youyou.provider.entity.UserPhoneDO;
 import com.youyou.provider.mapper.UserMapper;
+import com.youyou.provider.mapper.UserMobileMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,8 @@ import java.util.concurrent.TimeUnit;
 public class UserService {
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private UserMobileMapper userMobileMapper;
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -69,5 +75,27 @@ public class UserService {
             redisTemplate.opsForValue().set(userInfoKey, notExitUser, expiration, TimeUnit.SECONDS);
             return null;
         }
+    }
+
+
+    public LoginChaeckDTO gennerateDefaultUserByMobile(String mobile) {
+        log.info("用户手机号：{}开始注册账号",mobile);
+        //向用户表中插入数据
+        UserDO userDO = new UserDO();
+        //TODO 生成主键ID
+        Long userId = 1L;
+        userDO.setUserId(1L);
+        userDO.setAvatar("https://big-event-long01.oss-cn-beijing.aliyuncs.com/05cbacf8-ac2a-4115-a8e9-286eb8dcb762.jpg");
+        userDO.setNickName("新用户-"+userId);
+        userDO.setSex(0);
+
+        //向用户手机号和用户关联表中插入数据
+        UserPhoneDO userPhoneDO = new UserPhoneDO();
+        userPhoneDO.setUserId(userId);
+        userPhoneDO.setPhone(mobile);
+        userPhoneDO.setStatus(StatusEnum.VALID_STATUS.getCode());
+        userMobileMapper.insert(userPhoneDO);
+
+        return LoginChaeckDTO.loginSuccess(userId);
     }
 }
