@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.youyou.common.enums.StatusEnum;
 import com.youyou.common.utils.BuildUserKeyUtils;
 import com.youyou.common.utils.CopyBeanUtils;
+import com.youyou.id.inter.IGenerateIDRPCService;
 import com.youyou.moudules.user.dto.LoginChaeckDTO;
 import com.youyou.moudules.user.dto.UserDTO;
 import com.youyou.provider.entity.UserDO;
@@ -38,6 +39,9 @@ public class UserService {
 
     @Value("${redis.user.cache.expiration}")  // 设置缓存过期时间
     private long expiration;
+
+    @Resource
+    private IGenerateIDRPCService iGenerateIDRPCService;
 
     /**
      * 根据用户id查询用户信息
@@ -83,8 +87,8 @@ public class UserService {
         //向用户表中插入数据
         UserDO userDO = new UserDO();
         //TODO 生成主键ID
-        Long userId = 1L;
-        userDO.setUserId(1L);
+        Long userId = iGenerateIDRPCService.getSeqId();
+        userDO.setUserId(userId);
         userDO.setAvatar("https://big-event-long01.oss-cn-beijing.aliyuncs.com/05cbacf8-ac2a-4115-a8e9-286eb8dcb762.jpg");
         userDO.setNickName("新用户-"+userId);
         userDO.setSex(0);

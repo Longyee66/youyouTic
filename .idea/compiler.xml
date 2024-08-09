@@ -8,10 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="youyou-modules" />
-        <module name="youyou-redis-starter" />
         <module name="youyou-api" />
         <module name="youyou-user-provider" />
         <module name="youyou-user-interface" />
+        <module name="youyou-id-generate-interface" />
+        <module name="youyou-redis-starter" />
+        <module name="youyou-id-generate-provider" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />

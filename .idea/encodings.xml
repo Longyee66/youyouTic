@@ -7,6 +7,12 @@
     <file url="file://$PROJECT_DIR$/youyou-api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/youyou-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/youyou-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/youyou-id-generate/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/youyou-id-generate/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-interface/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-interface/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-provider/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-provider/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/youyou-modules/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/youyou-modules/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/youyou-redis-starter/src/main/java" charset="UTF-8" />

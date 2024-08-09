@@ -1,0 +1,62 @@
+{
+  "groups": [
+    {
+      "name": "you.autho",
+      "type": "com.youyou.common.properties.AuthProperties",
+      "sourceType": "com.youyou.common.properties.AuthProperties"
+    },
+    {
+      "name": "youyou.sms.ccp",
+      "type": "com.youyou.common.properties.SMSCCPProperties",
+      "sourceType": "com.youyou.common.properties.SMSCCPProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "you.autho.exp-time",
+      "type": "java.lang.Integer",
+      "sourceType": "com.youyou.common.properties.AuthProperties"
+    },
+    {
+      "name": "you.autho.token",
+      "type": "java.lang.String",
+      "sourceType": "com.youyou.common.properties.AuthProperties"
+    },
+    {
+      "name": "youyou.sms.ccp.account-s-i-d",
+      "type": "java.lang.String",
+      "sourceType": "com.youyou.common.properties.SMSCCPProperties"
+    },
+    {
+      "name": "youyou.sms.ccp.account-token",
+      "type": "java.lang.String",
+      "sourceType": "com.youyou.common.properties.SMSCCPProperties"
+    },
+    {
+      "name": "youyou.sms.ccp.app-id",
+      "type": "java.lang.String",
+      "sourceType": "com.youyou.common.properties.SMSCCPProperties"
+    },
+    {
+      "name": "youyou.sms.ccp.port",
+      "type": "java.lang.String",
+      "sourceType": "com.youyou.common.properties.SMSCCPProperties"
+    },
+    {
+      "name": "youyou.sms.ccp.sms-server-ip",
+      "type": "java.lang.String",
+      "sourceType": "com.youyou.common.properties.SMSCCPProperties"
+    },
+    {
+      "name": "youyou.sms.ccp.template-id",
+      "type": "java.lang.String",
+      "sourceType": "com.youyou.common.properties.SMSCCPProperties"
+    },
+    {
+      "name": "youyou.sms.ccp.test",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.youyou.common.properties.SMSCCPProperties"
+    }
+  ],
+  "hints": []
+}

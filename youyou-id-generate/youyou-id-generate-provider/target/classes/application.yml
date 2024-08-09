@@ -1,0 +1,59 @@
+server:
+  port: 8881
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.32.3:3306/youyou_cosid?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123456
+
+  application:
+    name: youyou-id-generate-provider
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.32.3:8848
+        namespace: ddddfd2a-ca0d-46a8-ba2e-f74927da2350
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+    qos-enable: false         #是否使用telnet查看状态
+  registry:
+    address: nacos://192.168.32.3:8848?namespace=ddddfd2a-ca0d-46a8-ba2e-f74927da2350
+    id: nacos-registry
+  protocol:                   #协议
+    name: dubbo
+    port: -1
+
+
+cosid:
+#默认
+  snowflake:
+    enabled: true #启用雪花算法生成ID
+    provider:
+      snowflakeId:
+        sequence-reset-threshold: 10 #序列重置阈值，意味着当序列号达到10时会重置
+        clock-sync: true #时钟同步
+    share:
+      enabled: false #
+  machine:
+    enabled: true #启用机器分配ID
+    distributor:
+      type: jdbc
+  segment: #段式ID生成
+    enabled: true
+    distributor:
+      type: jdbc
+      jdbc:
+        enable-auto-init-cosid-table: true #启用自动化初始ID
+    mode: chain #
+    chain:
+      safe-distance: 10 #阈值
+    provider:
+      sequence:
+        offset: 100
+        step: 1
+    share:
+      enabled: false #该段独立存在，不与其他生成ID保持一致

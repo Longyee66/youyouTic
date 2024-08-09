@@ -4,39 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ef75476-34e0-48b6-b285-21b82ca7e43a" name="Changes" comment="基础模块--数据完善">
-      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/constants/MessageConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/enums/StatusEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/properties/AuthProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/LoginChaeckDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/MobileLoginDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/MsgCheckDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/UserPhoneDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-redis-starter/src/main/java/com/youyou/redis/build/RedisKeyBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-redis-starter/src/main/java/com/youyou/redis/build/SMSCacheKeyBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-redis-starter/src/main/java/com/youyou/redis/build/UserCacheKeyBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserMobileRPCService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/UserPhoneDO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserMobileServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/mapper/SmsMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/mapper/UserMobileMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/SmsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserMobileService.java" afterDir="false" />
+    <list default="true" id="7ef75476-34e0-48b6-b285-21b82ca7e43a" name="Changes" comment="用户手机号注册信息">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-api/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/youyou-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/UserDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-redis-starter/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-redis-starter/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/News.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/SmsDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/UserDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/UserDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/LoginChaeckDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/LoginChaeckDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/test/java/com/youyou/provider/UserApplicationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/test/java/com/youyou/provider/UserApplicationTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +44,7 @@
       <MavenGeneralSettings>
         <option name="localRepository" value="D:\maven\repository" />
         <option name="mavenHome" value="$PROJECT_DIR$/../../../maven/apache-maven-3.9.2" />
+        <option name="useMavenConfig" value="true" />
         <option name="userSettingsFile" value="D:\maven\apache-maven-3.9.2\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
@@ -84,36 +64,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/000java/youyouTic/youyouTic-app/youyou-redis-starter/src/main/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.55284554&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;fileTemplates&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;9dfd69e0db0d80150b86751f28bb28a8&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "17",
+    "last_opened_file_path": "D:/000java/youyouTic/youyouTic-app/youyou-id-generate/pom.xml",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.55284554",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "spring.configuration.checksum": "31fad9e8f8c9a024903938f9ff9a1100",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -135,19 +115,19 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.UserApplicationTest.getUserById">
-    <configuration name="UserApplicationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="youyou-user-provider" />
+  <component name="RunManager" selected="JUnit.IdTest.idTest">
+    <configuration name="IdTest.idTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="youyou-id-generate-provider" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.youyou.provider.*" />
+          <option name="PATTERN" value="com.youyou.id.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.youyou.provider" />
-      <option name="MAIN_CLASS_NAME" value="com.youyou.provider.UserApplicationTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="com.youyou.id" />
+      <option name="MAIN_CLASS_NAME" value="com.youyou.id.IdTest" />
+      <option name="METHOD_NAME" value="idTest" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -168,28 +148,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserTest.getByUserId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="youyou-user-provider" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.youyou.provider.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.youyou.provider" />
-      <option name="MAIN_CLASS_NAME" value="com.youyou.provider.UserTest" />
-      <option name="METHOD_NAME" value="getByUserId" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ApiSpringApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="youyou-api" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.youyou.api.ApiSpringApplication" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.youyou.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IdGenerateIdRPCService" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="youyou-id-generate-provider" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.youyou.id.IdGenerateIdRPCService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.youyou.id.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -212,11 +189,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.IdTest.idTest" />
+        <item itemvalue="Spring Boot.IdGenerateIdRPCService" />
         <item itemvalue="JUnit.UserApplicationTest.getUserById" />
         <item itemvalue="Spring Boot.ApiSpringApplication" />
         <item itemvalue="Spring Boot.UserProviderApplication-1.0.0" />
-        <item itemvalue="JUnit.UserApplicationTest" />
-        <item itemvalue="Spring Boot.ApiSpringApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -246,6 +223,7 @@
       <workItem from="1722758729622" duration="23873000" />
       <workItem from="1722948879194" duration="6649000" />
       <workItem from="1723003808402" duration="10744000" />
+      <workItem from="1723191421491" duration="1240000" />
     </task>
     <task id="LOCAL-00001" summary="基础模块">
       <created>1722048102338</created>

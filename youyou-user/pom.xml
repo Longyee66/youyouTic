@@ -25,12 +25,17 @@
     <dependency>
       <groupId>com.youyou.common</groupId>
       <artifactId>youyou-common</artifactId>
-      <version>1.0</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.youyou.moudules</groupId>
       <artifactId>youyou-modules</artifactId>
-      <version>1.0</version>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.youyou.id</groupId>
+      <artifactId>youyou-id-generate</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>

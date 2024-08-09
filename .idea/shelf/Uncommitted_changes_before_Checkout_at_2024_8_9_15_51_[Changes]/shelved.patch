@@ -1,0 +1,891 @@
+Index: youyou-user/youyou-user-provider/src/main/resources/application.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#服务端口\r\nserver:\r\n  port: 8880\r\n\r\nspring:\r\n  datasource:\r\n    driver-class-name: com.mysql.cj.jdbc.Driver\r\n    url: jdbc:mysql://192.168.32.3:3306/youyouTic?useUnicode=true&characterEncoding=utf8\r\n    username: root\r\n    password: 123456\r\n  data:\r\n    redis:\r\n      host: 192.168.32.3\r\n      port: 6379\r\n      lettuce:\r\n        pool:\r\n          min-idle: 10\r\n          max-active: 100\r\n          max-idle: 10\r\n#  redis数据过期时间\r\nredis:\r\n  user:\r\n    cache:\r\n      expiration: 60\r\n  # nacos注册中心\r\n  application:\r\n    name: youyou-user-provider\r\n  cloud:\r\n    nacos:\r\n      discovery:\r\n        server-addr: 192.168.32.3:8848\r\n        namespace: ddddfd2a-ca0d-46a8-ba2e-f74927da2350     #命名空间\r\n\r\n#mybatis-plus配置\r\nmybatis-plus:\r\n  mapper-locations: classpath*:mapper/*.xml\r\n    # 设置别名包扫描路径，通过该属性可以给包中的类注册别名\r\n  type-aliases-package: com.youyou.common.user.entity\r\n  configuration:\r\n    map-underscore-to-camel-case: true\r\n\r\n# doubbo注册地址\r\ndubbo:\r\n  application:\r\n    name: dubbo-userProvider\r\n    qos-enable: false         #是否使用telnet查看状态\r\n  registry:\r\n    address: nacos://192.168.32.3:8848?namespace=ddddfd2a-ca0d-46a8-ba2e-f74927da2350\r\n    id: nacos-registry\r\n  protocol:                   #协议\r\n    name: dubbo\r\n    port: -1\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/youyou-user/youyou-user-provider/src/main/resources/application.yml b/youyou-user/youyou-user-provider/src/main/resources/application.yml
+--- a/youyou-user/youyou-user-provider/src/main/resources/application.yml	
++++ b/youyou-user/youyou-user-provider/src/main/resources/application.yml	
+@@ -17,11 +17,6 @@
+           min-idle: 10
+           max-active: 100
+           max-idle: 10
+-#  redis数据过期时间
+-redis:
+-  user:
+-    cache:
+-      expiration: 60
+   # nacos注册中心
+   application:
+     name: youyou-user-provider
+@@ -31,14 +26,42 @@
+         server-addr: 192.168.32.3:8848
+         namespace: ddddfd2a-ca0d-46a8-ba2e-f74927da2350     #命名空间
+ 
++logging:
++  level:
++    com:
++      youyou:
++        provider:
++          service: debug
++          impl: info
++          mapper: debug
++#  redis数据过期时间
++redis:
++  user:
++    cache:
++      expiration: 60
++#容联云短信验证配置
++youyou:
++  sms:
++    ccp:
++      test: true
++      smsServerIp: app.cloopen.com #请求地址
++      port: 8883 #端口号
++      accountSID: 2c94811c9035ff9f019130b693f03909 #账号
++      accountToken: c74fb7b8c21f41e6aabadecab21f00ee #令牌
++      appId: 2c94811c9035ff9f019130b6958a3910 #应用ID
++      templateId: 1 #短信模版ID
++
+ #mybatis-plus配置
+ mybatis-plus:
+   mapper-locations: classpath*:mapper/*.xml
+-    # 设置别名包扫描路径，通过该属性可以给包中的类注册别名
++  # 设置别名包扫描路径，通过该属性可以给包中的类注册别名
+   type-aliases-package: com.youyou.common.user.entity
+   configuration:
+     map-underscore-to-camel-case: true
+ 
++you:
++  autho: youyou
++
+ # doubbo注册地址
+ dubbo:
+   application:
+@@ -47,6 +70,6 @@
+   registry:
+     address: nacos://192.168.32.3:8848?namespace=ddddfd2a-ca0d-46a8-ba2e-f74927da2350
+     id: nacos-registry
+-  protocol:                   #协议
++  protocol: #协议
+     name: dubbo
+     port: -1
+Index: youyou-api/src/main/java/com/youyou/api/controller/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.youyou.api.controller;\r\nimport com.youyou.interfaces.IUserRPCSService;\r\nimport com.youyou.moudules.result.AppResultCode;\r\nimport com.youyou.moudules.result.Result;\r\nimport com.youyou.moudules.user.dto.UserDTO;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.apache.dubbo.config.annotation.DubboReference;\r\nimport org.springframework.web.bind.annotation.RequestMapping;\r\nimport org.springframework.web.bind.annotation.RestController;\r\n\r\n/**\r\n * Author longYee\r\n * Date 2024/7/30 14:47\r\n * Description:\r\n * Version: 1.0\r\n */\r\n@RestController\r\n@RequestMapping(\"/user\")\r\n@Slf4j\r\npublic class UserController {\r\n    @DubboReference(version = \"1.0.0\")\r\n    private IUserRPCSService userRPCSService;\r\n\r\n    @RequestMapping(\"/queryUser\")\r\n    public Result getUser(Long userId){\r\n        log.info(\"查询用户id：{}\",userId);\r\n        UserDTO user = userRPCSService.getUserById(userId);\r\n        if (null == user){\r\n            return Result.error(\"数据不存在\");\r\n        }\r\n        return Result.success(user);\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/youyou-api/src/main/java/com/youyou/api/controller/UserController.java b/youyou-api/src/main/java/com/youyou/api/controller/UserController.java
+--- a/youyou-api/src/main/java/com/youyou/api/controller/UserController.java	
++++ b/youyou-api/src/main/java/com/youyou/api/controller/UserController.java	
+@@ -1,12 +1,21 @@
+ package com.youyou.api.controller;
++
++import com.youyou.common.constants.MessageConstant;
++import com.youyou.common.properties.AuthProperties;
++import com.youyou.interfaces.IUserMobileRPCService;
+ import com.youyou.interfaces.IUserRPCSService;
+-import com.youyou.moudules.result.AppResultCode;
+ import com.youyou.moudules.result.Result;
++import com.youyou.moudules.user.dto.LoginChaeckDTO;
++import com.youyou.moudules.user.dto.MobileLoginDTO;
++import com.youyou.moudules.user.dto.MsgCheckDTO;
+ import com.youyou.moudules.user.dto.UserDTO;
++import jakarta.annotation.Resource;
++import jakarta.servlet.http.Cookie;
++import jakarta.servlet.http.HttpServletResponse;
+ import lombok.extern.slf4j.Slf4j;
+ import org.apache.dubbo.config.annotation.DubboReference;
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
++import org.springframework.util.StringUtils;
++import org.springframework.web.bind.annotation.*;
+ 
+ /**
+  * Author longYee
+@@ -21,14 +30,67 @@
+     @DubboReference(version = "1.0.0")
+     private IUserRPCSService userRPCSService;
+ 
++    @DubboReference(version = "1.0.0")
++    private IUserMobileRPCService mobileRPCService;
++
++    @Resource
++    private AuthProperties authProperties;
++
+     @RequestMapping("/queryUser")
+-    public Result getUser(Long userId){
+-        log.info("查询用户id：{}",userId);
++    public Result getUser(Long userId) {
++        log.info("查询用户id：{}", userId);
+         UserDTO user = userRPCSService.getUserById(userId);
+-        if (null == user){
+-            return Result.error("数据不存在");
++        if (null == user) {
++            return Result.error(MessageConstant.DATA_NULL_ERROR);
+         }
+         return Result.success(user);
+     }
+ 
++    /**
++     * 发送短信验证
++     */
++    @PostMapping("/sendSMS")
++    public Result sendSMS(String mobile) {
++        log.info("手机号：{}发送消息验证码", mobile);
++        if (!StringUtils.hasText(mobile)) {
++            return Result.error(MessageConstant.MOBILE_NULL_ERROR);
++        }
++        boolean flag = userRPCSService.sendLoginCode(mobile);
++        if (flag) {
++            return Result.success();
++        } else {
++            return Result.error(MessageConstant.CODE_SEND_ERROR);
++        }
++
++    }
++
++    /**
++     * 用户登录请求
++     */
++    @PostMapping("/mobileLogin")
++    public Result mobileLogin(@RequestBody MobileLoginDTO mobileLoginDTO, HttpServletResponse response) {
++        log.info("登录信息：{}", mobileLoginDTO);
++        if (!StringUtils.hasText(mobileLoginDTO.getMobile())) {
++            return Result.error(MessageConstant.MOBILE_NULL_ERROR);
++        }
++        if (mobileLoginDTO.getCode() < 1000 || mobileLoginDTO.getCode() > 9999) {
++            return Result.error(MessageConstant.FORMAT_ERROR);
++        }
++        //校验token
++        MsgCheckDTO msgCheckDTO = userRPCSService.checkLoginCode(mobileLoginDTO.getMobile(), mobileLoginDTO.getCode());
++        if (!msgCheckDTO.isCheckStatus()) {
++            return Result.error(msgCheckDTO.getDescription());
++        }
++        //校验成功完成手机登录
++        //如果没有登录过---注册，有登录---返回token
++        LoginChaeckDTO loginChaeckDTO = mobileRPCService.login(mobileLoginDTO.getMobile());
++
++        //用户标识
++        String token = userRPCSService.createAndSaveLoginToToken(loginChaeckDTO.getUserId());
++        Cookie cookie = new Cookie(authProperties.getToken(), token);
++        cookie.setMaxAge(authProperties.getExpTime());//设置过期时间
++        response.addCookie(cookie);
++        //设置token
++        return Result.success();
++    }
+ }
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n\r\n\r\n    <groupId>com.youyou</groupId>\r\n    <artifactId>youyouTic-app</artifactId>\r\n    <version>1.0</version>\r\n    <packaging>pom</packaging>\r\n\r\n\r\n    <modules>\r\n        <module>youyou-api</module>\r\n        <module>youyou-user</module>\r\n        <module>youyou-common</module>\r\n        <module>youyou-modules</module>\r\n        <module>youyou-redis-starter</module>\r\n    </modules>\r\n\r\n    <properties>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n        <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>\r\n        <spring-cloud-starter-bootstrap.version>3.0.3</spring-cloud-starter-bootstrap.version>\r\n        <dubbo.version>3.2.9</dubbo.version>\r\n        <lombok.version>1.18.30</lombok.version>\r\n        <mysql.version>8.0.27</mysql.version>\r\n        <mybatis-plus.version>3.5.3</mybatis-plus.version>\r\n        <test.version>4.13.2</test.version>\r\n        <jackson-core.version>2.15.0</jackson-core.version>\r\n    </properties>\r\n\r\n    <dependencyManagement>\r\n        <dependencies>\r\n            <dependency>\r\n                <groupId>org.springframework.boot</groupId>\r\n                <artifactId>spring-boot-dependencies</artifactId>\r\n                <version>3.0.5</version>\r\n                <type>pom</type>\r\n                <scope>import</scope>\r\n            </dependency>\r\n            <dependency>\r\n                <groupId>com.alibaba.cloud</groupId>\r\n                <artifactId>spring-cloud-alibaba-dependencies</artifactId>\r\n                <version>${spring-cloud-alibaba.version}</version>\r\n                <type>pom</type>\r\n                <scope>import</scope>\r\n            </dependency>\r\n            <dependency>\r\n                <groupId>org.projectlombok</groupId>\r\n                <artifactId>lombok</artifactId>\r\n                <version>${lombok.version}</version>\r\n            </dependency>\r\n            <dependency>\r\n                <groupId>com.baomidou</groupId>\r\n                <artifactId>mybatis-plus-boot-starter</artifactId>\r\n                <version>${mybatis-plus.version}</version>\r\n            </dependency>\r\n\r\n            <!-- Jackson Core -->\r\n            <dependency>\r\n                <groupId>com.fasterxml.jackson.core</groupId>\r\n                <artifactId>jackson-core</artifactId>\r\n                <version>${jackson-core.version}</version> <!-- 请根据需要选择最新版本 -->\r\n            </dependency>\r\n        </dependencies>\r\n    </dependencyManagement>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	
++++ b/pom.xml	
+@@ -17,6 +17,7 @@
+         <module>youyou-common</module>
+         <module>youyou-modules</module>
+         <module>youyou-redis-starter</module>
++        <module>youyou-id-generate</module>
+     </modules>
+ 
+     <properties>
+@@ -29,6 +30,8 @@
+         <mybatis-plus.version>3.5.3</mybatis-plus.version>
+         <test.version>4.13.2</test.version>
+         <jackson-core.version>2.15.0</jackson-core.version>
++        <cosid.version>2.6.8</cosid.version>
++        <sms.version>1.0.4</sms.version>
+     </properties>
+ 
+     <dependencyManagement>
+Index: youyou-user/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n  <modelVersion>4.0.0</modelVersion>\r\n  <parent>\r\n    <groupId>com.youyou</groupId>\r\n    <artifactId>youyouTic-app</artifactId>\r\n    <version>1.0</version>\r\n  </parent>\r\n\r\n  <artifactId>youyou-user</artifactId>\r\n  <packaging>pom</packaging>\r\n\r\n  <name>youyou-user</name>\r\n  <url>http://maven.apache.org</url>\r\n  <modules>\r\n    <module>youyou-user-interface</module>\r\n    <module>youyou-user-provider</module>\r\n  </modules>\r\n\r\n  <properties>\r\n    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n  </properties>\r\n\r\n  <dependencies>\r\n    <dependency>\r\n      <groupId>com.youyou.common</groupId>\r\n      <artifactId>youyou-common</artifactId>\r\n      <version>1.0</version>\r\n    </dependency>\r\n    <dependency>\r\n      <groupId>com.youyou.moudules</groupId>\r\n      <artifactId>youyou-modules</artifactId>\r\n      <version>1.0</version>\r\n    </dependency>\r\n  </dependencies>\r\n</project>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/youyou-user/pom.xml b/youyou-user/pom.xml
+--- a/youyou-user/pom.xml	
++++ b/youyou-user/pom.xml	
+@@ -25,12 +25,17 @@
+     <dependency>
+       <groupId>com.youyou.common</groupId>
+       <artifactId>youyou-common</artifactId>
+-      <version>1.0</version>
++      <version>${project.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>com.youyou.moudules</groupId>
+       <artifactId>youyou-modules</artifactId>
+-      <version>1.0</version>
++      <version>${project.version}</version>
++    </dependency>
++    <dependency>
++      <groupId>com.youyou.id</groupId>
++      <artifactId>youyou-id-generate</artifactId>
++      <version>${project.version}</version>
+     </dependency>
+   </dependencies>
+ </project>
+Index: .idea/encodings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"Encoding\">\r\n    <file url=\"file://$PROJECT_DIR$/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/src/main/resources\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-api/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-api/src/main/resources\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-common/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-common/src/main/resources\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-modules/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-modules/src/main/resources\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-redis-starter/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-redis-starter/src/main/resources\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-user/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-user/src/main/resources\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-user/youyou-user-interface/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-user/youyou-user-interface/src/main/resources\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources\" charset=\"UTF-8\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/encodings.xml b/.idea/encodings.xml
+--- a/.idea/encodings.xml	
++++ b/.idea/encodings.xml	
+@@ -7,6 +7,12 @@
+     <file url="file://$PROJECT_DIR$/youyou-api/src/main/resources" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/youyou-common/src/main/java" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/youyou-common/src/main/resources" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/youyou-id-generate/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/youyou-id-generate/src/main/resources" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-interface/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-interface/src/main/resources" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-provider/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-provider/src/main/resources" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/youyou-modules/src/main/java" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/youyou-modules/src/main/resources" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/youyou-redis-starter/src/main/java" charset="UTF-8" />
+Index: youyou-user/youyou-user-provider/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n    <parent>\r\n        <groupId>com.youyou</groupId>\r\n        <artifactId>youyou-user</artifactId>\r\n        <version>1.0</version>\r\n    </parent>\r\n\r\n    <groupId>com.youyou.provider</groupId>\r\n    <artifactId>youyou-user-provider</artifactId>\r\n    <packaging>jar</packaging>\r\n\r\n    <name>youyou-user-provider</name>\r\n    <url>http://maven.apache.org</url>\r\n\r\n    <properties>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n    </properties>\r\n\r\n    <dependencies>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-web</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.apache.dubbo</groupId>\r\n            <artifactId>dubbo-spring-boot-starter</artifactId>\r\n            <version>${dubbo.version}</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.cloud</groupId>\r\n            <artifactId>spring-cloud-starter-bootstrap</artifactId>\r\n            <version>${spring-cloud-starter-bootstrap.version}</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.alibaba.cloud</groupId>\r\n            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.alibaba.cloud</groupId>\r\n            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.youyou.interfaces</groupId>\r\n            <artifactId>youyou-user-interface</artifactId>\r\n            <version>${project.version}</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>junit</groupId>\r\n            <artifactId>junit</artifactId>\r\n            <version>${test.version}</version>\r\n            <scope>test</scope>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>mysql</groupId>\r\n            <artifactId>mysql-connector-java</artifactId>\r\n            <version>${mysql.version}</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.baomidou</groupId>\r\n            <artifactId>mybatis-plus-boot-starter</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-data-redis</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-test</artifactId>\r\n            <scope>test</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.fasterxml.jackson.core</groupId>\r\n            <artifactId>jackson-core</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.youyou.redis</groupId>\r\n            <artifactId>youyou-redis-starter</artifactId>\r\n            <version>1.0</version>\r\n        </dependency>\r\n    </dependencies>\r\n    <build>\r\n        <plugins>\r\n            <plugin>\r\n                <groupId>org.springframework.boot</groupId>\r\n                <artifactId>spring-boot-maven-plugin</artifactId>\r\n                <version>3.0.4</version>\r\n                <configuration>\r\n                    <classifier>exec</classifier>\r\n                </configuration>\r\n            </plugin>\r\n        </plugins>\r\n    </build>\r\n</project>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/youyou-user/youyou-user-provider/pom.xml b/youyou-user/youyou-user-provider/pom.xml
+--- a/youyou-user/youyou-user-provider/pom.xml	
++++ b/youyou-user/youyou-user-provider/pom.xml	
+@@ -29,6 +29,11 @@
+             <version>${dubbo.version}</version>
+         </dependency>
+         <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-configuration-processor</artifactId>
++            <optional>true</optional>
++        </dependency>
++        <dependency>
+             <groupId>org.springframework.cloud</groupId>
+             <artifactId>spring-cloud-starter-bootstrap</artifactId>
+             <version>${spring-cloud-starter-bootstrap.version}</version>
+@@ -78,7 +83,19 @@
+         <dependency>
+             <groupId>com.youyou.redis</groupId>
+             <artifactId>youyou-redis-starter</artifactId>
+-            <version>1.0</version>
++            <version>${project.version}</version>
++        </dependency>
++        <dependency>
++            <groupId>com.youyou.id.inter</groupId>
++            <artifactId>youyou-id-generate-interface</artifactId>
++            <version>${project.version}</version>
++        </dependency>
++
++        <!--短信验证jar包-->
++        <dependency>
++            <groupId>com.cloopen</groupId>
++            <artifactId>java-sms-sdk</artifactId>
++            <version>${sms.version}</version>
+         </dependency>
+     </dependencies>
+     <build>
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"7ef75476-34e0-48b6-b285-21b82ca7e43a\" name=\"Changes\" comment=\"基础模块--数据库调通测试\">\r\n      <change afterPath=\"$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/utils/BuildUserKeyUtils.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/utils/CopyBeanUtils.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/youyou-modules/pom.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/result/AppResultCode.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/result/PageResult.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/result/Result.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/youyou-redis-starter/pom.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/youyou-redis-starter/src/main/java/com/youyou/redis/config/RedisAutoConfiguration.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/youyou-redis-starter/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/logback-spring.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/compiler.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/compiler.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/encodings.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/encodings.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ConsumerTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ConsumerTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/controller/UserController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/controller/UserController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-common/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-common/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/user/dto/UserDTO.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/UserDTO.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/user/entity/News.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/News.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/user/entity/UserDO.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/UserDO.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-user/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-user/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/UserProviderApplication.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/UserProviderApplication.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/mapper/UserMapper.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/mapper/UserMapper.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/application.yml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/application.yml\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"3a97a2f22e24249fcb578e864b47956a34214a35\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"generalSettings\">\r\n      <MavenGeneralSettings>\r\n        <option name=\"localRepository\" value=\"D:\\maven\\repository\" />\r\n        <option name=\"mavenHome\" value=\"$PROJECT_DIR$/../../../maven/apache-maven-3.9.2\" />\r\n        <option name=\"userSettingsFile\" value=\"D:\\maven\\apache-maven-3.9.2\\conf\\settings.xml\" />\r\n      </MavenGeneralSettings>\r\n    </option>\r\n    <option name=\"enabledProfiles\">\r\n      <list>\r\n        <option value=\"jdk-1.8\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2joFgHtDF553QYoMkWQ46393Mf1\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"autoscrollFromSource\" value=\"true\" />\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RequestMappingsPanelOrder0\": \"0\",\r\n    \"RequestMappingsPanelOrder1\": \"1\",\r\n    \"RequestMappingsPanelWidth0\": \"75\",\r\n    \"RequestMappingsPanelWidth1\": \"75\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"git-widget-placeholder\": \"master\",\r\n    \"jdk.selected.JAVA_MODULE\": \"17\",\r\n    \"last_opened_file_path\": \"D:/000java/youyouTic/youyouTic-app/youyou-redis-starter/src/main/resources\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"project.structure.last.edited\": \"Modules\",\r\n    \"project.structure.proportion\": \"0.15\",\r\n    \"project.structure.side.proportion\": \"0.55284554\",\r\n    \"settings.editor.selected.configurable\": \"fileTemplates\",\r\n    \"spring.configuration.checksum\": \"9dfd69e0db0d80150b86751f28bb28a8\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  },\r\n  \"keyToStringList\": {\r\n    \"DatabaseDriversLRU\": [\r\n      \"mysql\"\r\n    ]\r\n  }\r\n}]]></component>\r\n  <component name=\"ReactorSettings\">\r\n    <option name=\"notificationShown\" value=\"true\" />\r\n  </component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"D:\\000java\\youyouTic\\youyouTic-app\\youyou-redis-starter\\src\\main\\resources\" />\r\n      <recent name=\"D:\\000java\\youyouTic\\youyouTic-app\\youyou-user\\youyou-user-provider\\src\\main\\java\\com\\youyou\\provider\" />\r\n      <recent name=\"D:\\000java\\youyouTic\\youyouTic-app\\youyou-user\\youyou-user-provider\\src\\main\\resources\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunDashboard\">\r\n    <option name=\"configurationTypes\">\r\n      <set>\r\n        <option value=\"SpringBootApplicationConfigurationType\" />\r\n      </set>\r\n    </option>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Spring Boot.UserProviderApplication-1.0.0\">\r\n    <configuration name=\"UserApplicationTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"youyou-user-provider\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.youyou.provider.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"com.youyou.provider\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.youyou.provider.UserApplicationTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"UserApplicationTest.getUserById\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"youyou-user-provider\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.youyou.provider.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"com.youyou.provider\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.youyou.provider.UserApplicationTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"getUserById\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"UserTest.getByUserId\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"youyou-user-provider\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.youyou.provider.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"com.youyou.provider\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.youyou.provider.UserTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"getByUserId\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ApiSpringApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"youyou-api\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.youyou.api.ApiSpringApplication\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.youyou.api.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"UserProviderApplication-1.0.0\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" temporary=\"true\">\r\n      <module name=\"youyou-user-provider\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.youyou.provider.UserProviderApplication\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.youyou.provider.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Spring Boot.ApiSpringApplication\" />\r\n        <item itemvalue=\"Spring Boot.UserProviderApplication-1.0.0\" />\r\n        <item itemvalue=\"JUnit.UserApplicationTest.getUserById\" />\r\n        <item itemvalue=\"JUnit.UserApplicationTest\" />\r\n        <item itemvalue=\"Spring Boot.ApiSpringApplication\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"7ef75476-34e0-48b6-b285-21b82ca7e43a\" name=\"Changes\" comment=\"\" />\r\n      <created>1722045633203</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1722045633203</updated>\r\n      <workItem from=\"1722045634434\" duration=\"24376000\" />\r\n      <workItem from=\"1722087673151\" duration=\"3449000\" />\r\n      <workItem from=\"1722092528645\" duration=\"921000\" />\r\n      <workItem from=\"1722137313047\" duration=\"5840000\" />\r\n      <workItem from=\"1722224085612\" duration=\"3364000\" />\r\n      <workItem from=\"1722319596605\" duration=\"1076000\" />\r\n      <workItem from=\"1722320687059\" duration=\"10316000\" />\r\n      <workItem from=\"1722407478524\" duration=\"9454000\" />\r\n      <workItem from=\"1722583293216\" duration=\"3871000\" />\r\n      <workItem from=\"1722587334181\" duration=\"16172000\" />\r\n      <workItem from=\"1722658043017\" duration=\"1621000\" />\r\n      <workItem from=\"1722659904794\" duration=\"15203000\" />\r\n      <workItem from=\"1722758729622\" duration=\"11078000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"基础模块\">\r\n      <created>1722048102338</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1722048102338</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"基础模块--数据库调通测试\">\r\n      <created>1722606142623</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1722606142623</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"3\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"基础模块\" />\r\n    <MESSAGE value=\"基础模块--数据库调通测试\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"基础模块--数据库调通测试\" />\r\n  </component>\r\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\r\n    <expand />\r\n    <select />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -4,34 +4,43 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="7ef75476-34e0-48b6-b285-21b82ca7e43a" name="Changes" comment="基础模块--数据库调通测试">
+-      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/utils/BuildUserKeyUtils.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/utils/CopyBeanUtils.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/youyou-modules/pom.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/result/AppResultCode.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/result/PageResult.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/result/Result.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/youyou-redis-starter/pom.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/youyou-redis-starter/src/main/java/com/youyou/redis/config/RedisAutoConfiguration.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/youyou-redis-starter/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/logback-spring.xml" afterDir="false" />
++    <list default="true" id="7ef75476-34e0-48b6-b285-21b82ca7e43a" name="Changes" comment="用户登录数据校验、手机号码登录注册相关代码">
++      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/constants/IDConstant.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/properties/SMSCCPProperties.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/utils/SmsCCPUtils.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/utils/ThreadPoolMengerUtils.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-id-generate/pom.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-interface/pom.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-interface/src/main/java/com/youyou/id/inter/IGenerateIDRPCService.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-provider/pom.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-provider/src/main/java/com/youyou/id/IdGenerateIdRPCService.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-provider/src/main/java/com/youyou/id/service/GenerateIDRPCService.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-provider/src/main/resources/application.yml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-provider/src/main/resources/bootstrap.yml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-id-generate/youyou-id-generate-provider/src/test/java/com/youyou/id/IdTest.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/config/CCPconfig.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/test/java/com/youyou/provider/SmsCCPTest.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/test/java/com/youyou/provider/SmsTest.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/test/java/com/youyou/provider/ThreadTest.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ConsumerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ConsumerTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/youyou-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/pom.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ApiSpringApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ApiSpringApplication.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/controller/UserController.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/youyou-api/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/src/main/resources/application.yml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/youyou-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-common/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/user/dto/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/UserDTO.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/user/entity/News.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/News.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/user/entity/UserDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/UserDO.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/LoginChaeckDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-modules/src/main/java/com/youyou/moudules/user/dto/LoginChaeckDTO.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/youyou-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/pom.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/UserProviderApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/UserProviderApplication.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/mapper/UserMapper.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/SmsDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/SmsDO.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/SmsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/SmsService.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/application.yml" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -42,6 +51,7 @@
+   <component name="FileTemplateManagerImpl">
+     <option name="RECENT_TEMPLATES">
+       <list>
++        <option value="Enum" />
+         <option value="Interface" />
+         <option value="Class" />
+       </list>
+@@ -87,10 +97,11 @@
+     "RequestMappingsPanelWidth1": "75",
+     "RunOnceActivity.OpenProjectViewOnStart": "true",
+     "RunOnceActivity.ShowReadmeOnStart": "true",
++    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+     "WebServerToolWindowFactoryState": "false",
+     "git-widget-placeholder": "master",
+     "jdk.selected.JAVA_MODULE": "17",
+-    "last_opened_file_path": "D:/000java/youyouTic/youyouTic-app/youyou-redis-starter/src/main/resources",
++    "last_opened_file_path": "D:/000java/youyouTic/youyouTic-app/youyou-id-generate/youyou-id-generate-provider/src/main/resources",
+     "node.js.detected.package.eslint": "true",
+     "node.js.detected.package.tslint": "true",
+     "node.js.selected.package.eslint": "(autodetect)",
+@@ -99,8 +110,8 @@
+     "project.structure.last.edited": "Modules",
+     "project.structure.proportion": "0.15",
+     "project.structure.side.proportion": "0.55284554",
+-    "settings.editor.selected.configurable": "fileTemplates",
+-    "spring.configuration.checksum": "9dfd69e0db0d80150b86751f28bb28a8",
++    "settings.editor.selected.configurable": "MavenSettings",
++    "spring.configuration.checksum": "718cddb3bc426dc9098ba617b752db76",
+     "vue.rearranger.settings.migration": "true"
+   },
+   "keyToStringList": {
+@@ -113,11 +124,23 @@
+     <option name="notificationShown" value="true" />
+   </component>
+   <component name="RecentsManager">
++    <key name="CreateClassDialog.RecentsKey">
++      <recent name="com.youyou.provider.service" />
++      <recent name="com.youyou.pri" />
++    </key>
+     <key name="CopyFile.RECENT_KEYS">
++      <recent name="D:\000java\youyouTic\youyouTic-app\youyou-id-generate\youyou-id-generate-provider\src\main\resources" />
+       <recent name="D:\000java\youyouTic\youyouTic-app\youyou-redis-starter\src\main\resources" />
+       <recent name="D:\000java\youyouTic\youyouTic-app\youyou-user\youyou-user-provider\src\main\java\com\youyou\provider" />
+       <recent name="D:\000java\youyouTic\youyouTic-app\youyou-user\youyou-user-provider\src\main\resources" />
+     </key>
++    <key name="MoveFile.RECENT_KEYS">
++      <recent name="D:\000java\youyouTic\youyouTic-app\youyou-id-generate" />
++      <recent name="D:\000java\youyouTic\youyouTic-app\youyou-id-generate-provider\src\main\resources" />
++    </key>
++    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
++      <recent name="com.youyou.id" />
++    </key>
+   </component>
+   <component name="RunDashboard">
+     <option name="configurationTypes">
+@@ -125,9 +148,11 @@
+         <option value="SpringBootApplicationConfigurationType" />
+       </set>
+     </option>
++    <option name="openRunningConfigInTab" value="true" />
+   </component>
+-  <component name="RunManager" selected="Spring Boot.UserProviderApplication-1.0.0">
+-    <configuration name="UserApplicationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++  <component name="RunManager" selected="Spring Boot.UserProviderApplication">
++    <configuration name="ThreadTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="com.youyou.provider.ThreadTest" />
+       <module name="youyou-user-provider" />
+       <extension name="coverage">
+         <pattern>
+@@ -135,15 +160,11 @@
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+-      <option name="PACKAGE_NAME" value="com.youyou.provider" />
+-      <option name="MAIN_CLASS_NAME" value="com.youyou.provider.UserApplicationTest" />
+-      <option name="METHOD_NAME" value="" />
+-      <option name="TEST_OBJECT" value="class" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="UserApplicationTest.getUserById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="SmsCCPTest.smsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="youyou-user-provider" />
+       <extension name="coverage">
+         <pattern>
+@@ -152,14 +173,14 @@
+         </pattern>
+       </extension>
+       <option name="PACKAGE_NAME" value="com.youyou.provider" />
+-      <option name="MAIN_CLASS_NAME" value="com.youyou.provider.UserApplicationTest" />
+-      <option name="METHOD_NAME" value="getUserById" />
++      <option name="MAIN_CLASS_NAME" value="com.youyou.provider.SmsCCPTest" />
++      <option name="METHOD_NAME" value="smsTest" />
+       <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="UserTest.getByUserId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="SmsUtilsTest.sendTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="youyou-user-provider" />
+       <extension name="coverage">
+         <pattern>
+@@ -168,8 +189,8 @@
+         </pattern>
+       </extension>
+       <option name="PACKAGE_NAME" value="com.youyou.provider" />
+-      <option name="MAIN_CLASS_NAME" value="com.youyou.provider.UserTest" />
+-      <option name="METHOD_NAME" value="getByUserId" />
++      <option name="MAIN_CLASS_NAME" value="com.youyou.provider.SmsUtilsTest" />
++      <option name="METHOD_NAME" value="sendTest" />
+       <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+@@ -188,12 +209,12 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="UserProviderApplication-1.0.0" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+-      <module name="youyou-user-provider" />
+-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.youyou.provider.UserProviderApplication" />
++    <configuration name="IdGenerateIdRPCService" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
++      <module name="youyou-id-generate-provider" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.youyou.id.IdGenerateIdRPCService" />
+       <extension name="coverage">
+         <pattern>
+-          <option name="PATTERN" value="com.youyou.provider.*" />
++          <option name="PATTERN" value="com.youyou.id.*" />
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+@@ -201,17 +222,27 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
++    <configuration name="UserProviderApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
++      <module name="youyou-user-provider" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.youyou.provider.UserProviderApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
+     <recent_temporary>
+       <list>
+         <item itemvalue="Spring Boot.ApiSpringApplication" />
+-        <item itemvalue="Spring Boot.UserProviderApplication-1.0.0" />
+-        <item itemvalue="JUnit.UserApplicationTest.getUserById" />
+-        <item itemvalue="JUnit.UserApplicationTest" />
+-        <item itemvalue="Spring Boot.ApiSpringApplication" />
++        <item itemvalue="Spring Boot.IdGenerateIdRPCService" />
++        <item itemvalue="Application.ThreadTest" />
++        <item itemvalue="JUnit.SmsCCPTest.smsTest" />
++        <item itemvalue="JUnit.SmsUtilsTest.sendTest" />
+       </list>
+     </recent_temporary>
+   </component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
++  <component name="SpringBootOptions">
++    <option name="showAdditionalConfigNotification" value="false" />
++  </component>
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+       <changelist id="7ef75476-34e0-48b6-b285-21b82ca7e43a" name="Changes" comment="" />
+@@ -231,7 +262,10 @@
+       <workItem from="1722587334181" duration="16172000" />
+       <workItem from="1722658043017" duration="1621000" />
+       <workItem from="1722659904794" duration="15203000" />
+-      <workItem from="1722758729622" duration="11078000" />
++      <workItem from="1722758729622" duration="23873000" />
++      <workItem from="1722948879194" duration="6649000" />
++      <workItem from="1723003808402" duration="18088000" />
++      <workItem from="1723083506551" duration="26074000" />
+     </task>
+     <task id="LOCAL-00001" summary="基础模块">
+       <created>1722048102338</created>
+@@ -247,7 +281,21 @@
+       <option name="project" value="LOCAL" />
+       <updated>1722606142623</updated>
+     </task>
+-    <option name="localTasksCounter" value="3" />
++    <task id="LOCAL-00003" summary="基础模块--数据完善">
++      <created>1722856775555</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1722856775555</updated>
++    </task>
++    <task id="LOCAL-00004" summary="用户登录数据校验、手机号码登录注册相关代码">
++      <created>1723018771404</created>
++      <option name="number" value="00004" />
++      <option name="presentableId" value="LOCAL-00004" />
++      <option name="project" value="LOCAL" />
++      <updated>1723018771404</updated>
++    </task>
++    <option name="localTasksCounter" value="5" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -267,7 +315,9 @@
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="基础模块" />
+     <MESSAGE value="基础模块--数据库调通测试" />
+-    <option name="LAST_COMMIT_MESSAGE" value="基础模块--数据库调通测试" />
++    <MESSAGE value="基础模块--数据完善" />
++    <MESSAGE value="用户登录数据校验、手机号码登录注册相关代码" />
++    <option name="LAST_COMMIT_MESSAGE" value="用户登录数据校验、手机号码登录注册相关代码" />
+   </component>
+   <component name="XSLT-Support.FileAssociations.UIState">
+     <expand />
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CompilerConfiguration\">\r\n    <annotationProcessing>\r\n      <profile default=\"true\" name=\"Default\" enabled=\"true\" />\r\n      <profile name=\"Maven default annotation processors profile\" enabled=\"true\">\r\n        <sourceOutputDir name=\"target/generated-sources/annotations\" />\r\n        <sourceTestOutputDir name=\"target/generated-test-sources/test-annotations\" />\r\n        <outputRelativeToContentRoot value=\"true\" />\r\n        <module name=\"youyou-modules\" />\r\n        <module name=\"youyou-redis-starter\" />\r\n        <module name=\"youyou-api\" />\r\n        <module name=\"youyou-common\" />\r\n        <module name=\"youyou-user-provider\" />\r\n        <module name=\"youyou-user-interface\" />\r\n      </profile>\r\n    </annotationProcessing>\r\n    <bytecodeTargetLevel target=\"17\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	
++++ b/.idea/compiler.xml	
+@@ -8,11 +8,12 @@
+         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+         <outputRelativeToContentRoot value="true" />
+         <module name="youyou-modules" />
+-        <module name="youyou-redis-starter" />
+         <module name="youyou-api" />
+-        <module name="youyou-common" />
+         <module name="youyou-user-provider" />
+         <module name="youyou-user-interface" />
++        <module name="youyou-id-generate-interface" />
++        <module name="youyou-redis-starter" />
++        <module name="youyou-id-generate-provider" />
+       </profile>
+     </annotationProcessing>
+     <bytecodeTargetLevel target="17" />
+Index: youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.youyou.interfaces;\r\n\r\n\r\nimport com.youyou.moudules.user.dto.UserDTO;\r\n\r\n/**\r\n * Author: long\r\n * Description:\r\n */\r\npublic interface IUserRPCSService {\r\n    UserDTO getUserById(Long id);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java b/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java
+--- a/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java	
++++ b/youyou-user/youyou-user-interface/src/main/java/com/youyou/interfaces/IUserRPCSService.java	
+@@ -1,6 +1,7 @@
+ package com.youyou.interfaces;
+ 
+ 
++import com.youyou.moudules.user.dto.MsgCheckDTO;
+ import com.youyou.moudules.user.dto.UserDTO;
+ 
+ /**
+@@ -8,5 +9,31 @@
+  * Description:
+  */
+ public interface IUserRPCSService {
++    /**
++     * 用户信息查询
++     * @param id
++     * @return
++     */
+     UserDTO getUserById(Long id);
++
++    /**
++     * 短信验证
++     * @param mobile
++     * @return
++     */
++    boolean sendLoginCode(String mobile);
++
++    /**
++     * 用户信息校验
++     * @param code 验证码
++     * @return 校验结果
++     */
++    MsgCheckDTO checkLoginCode(String mobile, Integer code);
++
++    /**
++     * 创建用户标识
++     * @param userId
++     * @return
++     */
++    String createAndSaveLoginToToken(Long userId);
+ }
+Index: youyou-common/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n    <parent>\r\n        <groupId>com.youyou</groupId>\r\n        <artifactId>youyouTic-app</artifactId>\r\n        <version>1.0</version>\r\n    </parent>\r\n\r\n    <groupId>com.youyou.common</groupId>\r\n    <artifactId>youyou-common</artifactId>\r\n    <packaging>jar</packaging>\r\n\r\n    <name>youyou-common</name>\r\n    <url>http://maven.apache.org</url>\r\n\r\n    <properties>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n    </properties>\r\n\r\n    <dependencies>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-web</artifactId>\r\n        </dependency>\r\n    </dependencies>\r\n</project>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/youyou-common/pom.xml b/youyou-common/pom.xml
+--- a/youyou-common/pom.xml	
++++ b/youyou-common/pom.xml	
+@@ -23,5 +23,34 @@
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-web</artifactId>
+         </dependency>
++        <dependency>
++            <groupId>org.projectlombok</groupId>
++            <artifactId>lombok</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-configuration-processor</artifactId>
++            <optional>true</optional>
++        </dependency>
++        <dependency>
++            <groupId>com.cloopen</groupId>
++            <artifactId>java-sms-sdk</artifactId>
++            <version>${sms.version}</version>
++        </dependency>
+     </dependencies>
++
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-compiler-plugin</artifactId>
++                <configuration>
++                    <proc>none</proc>
++                </configuration>
++            </plugin>
++        </plugins>
++    </build>
++
++
+ </project>
+Index: youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.youyou.provider.impl;\r\n\r\nimport com.youyou.interfaces.IUserRPCSService;\r\nimport com.youyou.moudules.user.dto.UserDTO;\r\nimport com.youyou.provider.service.UserService;\r\nimport jakarta.annotation.Resource;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.apache.dubbo.config.annotation.DubboService;\r\n\r\n\r\n/**\r\n * Author longYee\r\n * Date 2024/7/27 15:18\r\n * Description: 远程调用接口\r\n * Version 1.0\r\n */\r\n\r\n@DubboService(version = \"1.0.0\")\r\n@Slf4j\r\npublic class UserRPCSerciveImpl implements IUserRPCSService {\r\n    @Resource\r\n    private UserService userService;\r\n    @Override\r\n    public UserDTO getUserById(Long id) {\r\n        return userService.getUser(id);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java b/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java
+--- a/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java	
++++ b/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java	
+@@ -1,7 +1,9 @@
+ package com.youyou.provider.impl;
+ 
+ import com.youyou.interfaces.IUserRPCSService;
++import com.youyou.moudules.user.dto.MsgCheckDTO;
+ import com.youyou.moudules.user.dto.UserDTO;
++import com.youyou.provider.service.SmsService;
+ import com.youyou.provider.service.UserService;
+ import jakarta.annotation.Resource;
+ import lombok.extern.slf4j.Slf4j;
+@@ -20,8 +22,30 @@
+ public class UserRPCSerciveImpl implements IUserRPCSService {
+     @Resource
+     private UserService userService;
++    @Resource
++    private SmsService smsService;
+     @Override
+     public UserDTO getUserById(Long id) {
+         return userService.getUser(id);
+     }
++
++    /**
++     * 发送短信验证码
++     * @param mobile 手机号
++     * @return 发送成功返回 true
++     */
++    @Override
++    public boolean sendLoginCode(String mobile) {
++        return smsService.sendSMS(mobile);
++    }
++
++    @Override
++    public MsgCheckDTO checkLoginCode(String mobile, Integer code) {
++        return smsService.checkLoginCode(mobile, code);
++    }
++
++    @Override
++    public String createAndSaveLoginToToken(Long userId) {
++        return null;
++    }
+ }
+Index: youyou-redis-starter/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>com.youyou.redis.config.RedisAutoConfiguration
+===================================================================
+diff --git a/youyou-redis-starter/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports b/youyou-redis-starter/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
+--- a/youyou-redis-starter/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports	
++++ b/youyou-redis-starter/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports	
+@@ -1,1 +1,3 @@
+-com.youyou.redis.config.RedisAutoConfiguration
+\ No newline at end of file
++com.youyou.redis.config.RedisAutoConfiguration
++com.youyou.redis.build.SMSCacheKeyBuilder
++com.youyou.redis.build.UserCacheKeyBuilder
+\ No newline at end of file
+Index: youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/UserDO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.youyou.provider.entity;\r\n\r\nimport com.baomidou.mybatisplus.annotation.IdType;\r\nimport com.baomidou.mybatisplus.annotation.TableId;\r\nimport com.baomidou.mybatisplus.annotation.TableName;\r\nimport lombok.Data;\r\n\r\nimport java.io.Serializable;\r\nimport java.sql.Date;\r\n\r\n/**\r\n * Author longYee\r\n * Date 2024/7/30 22:11\r\n * Description: 用户基础信息\r\n * Version: 1.0\r\n */\r\n@TableName(\"t_user\")\r\n@Data\r\npublic class UserDO implements Serializable{\r\n\r\n    //用户id\r\n    @TableId(type = IdType.INPUT)\r\n    private Long userId;\r\n\r\n    //用户昵称\r\n    private String nickName;\r\n\r\n    //头像\r\n    private String avatar;\r\n\r\n    //真实姓名\r\n    private String trueName;\r\n\r\n    //性别\r\n    private Integer sex;\r\n\r\n    //创建时间\r\n    private Date createTime;\r\n\r\n    //更新时间\r\n    private Date updateTime;\r\n}\r\n
+===================================================================
+diff --git a/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/UserDO.java b/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/UserDO.java
+--- a/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/UserDO.java	
++++ b/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/entity/UserDO.java	
+@@ -16,7 +16,7 @@
+  */
+ @TableName("t_user")
+ @Data
+-public class UserDO implements Serializable{
++public class UserDO{
+ 
+     //用户id
+     @TableId(type = IdType.INPUT)
+@@ -31,7 +31,7 @@
+     //真实姓名
+     private String trueName;
+ 
+-    //性别
++    //性别 1-男 0-女
+     private Integer sex;
+ 
+     //创建时间
+Index: youyou-modules/src/main/java/com/youyou/moudules/user/dto/UserDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.youyou.moudules.user.dto;\r\n\r\nimport lombok.Data;\r\n\r\nimport java.io.Serializable;\r\n\r\n/**\r\n * @Author longYee\r\n * @Date 2024/7/27 14:52\r\n * @Description: TODO\r\n * @Version 1.0\r\n */\r\n@Data\r\npublic class UserDTO implements Serializable {\r\n\r\n    private Long userId;\r\n\r\n    private String nickName;\r\n\r\n    private String avatar;\r\n\r\n    private Integer sex;\r\n\r\n    @Override\r\n    public String toString() {\r\n        return \"UserDTO{\" +\r\n                \"userId=\" + userId +\r\n                \", nickName='\" + nickName + '\\'' +\r\n                \", avatar='\" + avatar + '\\'' +\r\n                \", sex=\" + sex +\r\n                '}';\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/youyou-modules/src/main/java/com/youyou/moudules/user/dto/UserDTO.java b/youyou-modules/src/main/java/com/youyou/moudules/user/dto/UserDTO.java
+--- a/youyou-modules/src/main/java/com/youyou/moudules/user/dto/UserDTO.java	
++++ b/youyou-modules/src/main/java/com/youyou/moudules/user/dto/UserDTO.java	
+@@ -7,7 +7,7 @@
+ /**
+  * @Author longYee
+  * @Date 2024/7/27 14:52
+- * @Description: TODO
++ * @Description:
+  * @Version 1.0
+  */
+ @Data
+Index: youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.youyou.provider.service;\r\n\r\nimport com.alibaba.fastjson2.JSON;\r\nimport com.youyou.common.utils.BuildUserKeyUtils;\r\nimport com.youyou.common.utils.CopyBeanUtils;\r\nimport com.youyou.moudules.user.dto.UserDTO;\r\nimport com.youyou.provider.entity.UserDO;\r\nimport com.youyou.provider.mapper.UserMapper;\r\nimport jakarta.annotation.Resource;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.beans.factory.annotation.Value;\r\nimport org.springframework.data.redis.core.RedisTemplate;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport java.util.concurrent.TimeUnit;\r\n\r\n/**\r\n * Author longYee\r\n * Date 2024/8/2 22:36\r\n * Description: 用户业务\r\n * Version: 1.0\r\n */\r\n@Service\r\n@Slf4j\r\npublic class UserService {\r\n    @Resource\r\n    private UserMapper userMapper;\r\n\r\n    @Resource\r\n    private RedisTemplate<String, Object> redisTemplate;\r\n\r\n    @Value(\"${redis.user.cache.expiration}\")  // 设置缓存过期时间\r\n    private long expiration;\r\n\r\n    /**\r\n     * 根据用户id查询用户信息\r\n     *\r\n     * @param userId\r\n     * @return\r\n     */\r\n    public UserDTO getUser(Long userId) {\r\n        if (null == userId) {\r\n            return null;\r\n        }\r\n        UserDTO userDTO;\r\n        //先查询redis中是否存在\r\n        String userInfoKey = BuildUserKeyUtils.BuildUserKey(userId);\r\n        userDTO = (UserDTO) redisTemplate.opsForValue().get(userInfoKey);\r\n        if (null != userDTO && userDTO.getUserId() > 0) {\r\n            log.info(\"从redis中读取的数据：{}\",userDTO);\r\n            return userDTO;\r\n        } else if (null != userDTO &&userDTO.getUserId() < 0) {\r\n            return null;\r\n        }\r\n        //不存在则查询数据库\r\n        UserDO userDO = userMapper.selectById(userId);\r\n        if (null != userDO) {\r\n            log.info(\"mysql中读取的数据：{}\",userDO);\r\n            userDTO = CopyBeanUtils.copy(userDO, UserDTO.class);\r\n            redisTemplate.opsForValue().set(userInfoKey, userDTO, expiration, TimeUnit.MINUTES);\r\n            return userDTO;\r\n        } else {\r\n            //如果数据库内没有数据 纯在缓存击穿\r\n            //1、布隆过滤器 2、设置空值\r\n            //设置空值\r\n            UserDTO notExitUser = new UserDTO();\r\n            notExitUser.setUserId(-1L);\r\n            redisTemplate.opsForValue().set(userInfoKey, notExitUser, expiration, TimeUnit.SECONDS);\r\n            return null;\r\n        }\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java b/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java
+--- a/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java	
++++ b/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java	
+@@ -1,13 +1,19 @@
+ package com.youyou.provider.service;
+ 
+ import com.alibaba.fastjson2.JSON;
++import com.youyou.common.enums.StatusEnum;
+ import com.youyou.common.utils.BuildUserKeyUtils;
+ import com.youyou.common.utils.CopyBeanUtils;
++import com.youyou.id.inter.IGenerateIDRPCService;
++import com.youyou.moudules.user.dto.LoginChaeckDTO;
+ import com.youyou.moudules.user.dto.UserDTO;
+ import com.youyou.provider.entity.UserDO;
++import com.youyou.provider.entity.UserPhoneDO;
+ import com.youyou.provider.mapper.UserMapper;
++import com.youyou.provider.mapper.UserMobileMapper;
+ import jakarta.annotation.Resource;
+ import lombok.extern.slf4j.Slf4j;
++import org.apache.dubbo.config.annotation.DubboReference;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.beans.factory.annotation.Value;
+ import org.springframework.data.redis.core.RedisTemplate;
+@@ -26,6 +32,8 @@
+ public class UserService {
+     @Resource
+     private UserMapper userMapper;
++    @Resource
++    private UserMobileMapper userMobileMapper;
+ 
+     @Resource
+     private RedisTemplate<String, Object> redisTemplate;
+@@ -33,6 +41,9 @@
+     @Value("${redis.user.cache.expiration}")  // 设置缓存过期时间
+     private long expiration;
+ 
++    @DubboReference(version = "1.0.0")
++    private IGenerateIDRPCService iGenerateIDRPCService;
++
+     /**
+      * 根据用户id查询用户信息
+      *
+@@ -70,4 +81,26 @@
+             return null;
+         }
+     }
++
++
++    public LoginChaeckDTO gennerateDefaultUserByMobile(String mobile) {
++        log.info("用户手机号：{}开始注册账号",mobile);
++        //向用户表中插入数据
++        UserDO userDO = new UserDO();
++        // 生成主键ID (已完成)
++        Long userId = iGenerateIDRPCService.getSeqId();
++        userDO.setUserId(userId);
++        userDO.setAvatar("https://big-event-long01.oss-cn-beijing.aliyuncs.com/05cbacf8-ac2a-4115-a8e9-286eb8dcb762.jpg");
++        userDO.setNickName("新用户-"+userId);
++        userDO.setSex(0);
++
++        //向用户手机号和用户关联表中插入数据
++        UserPhoneDO userPhoneDO = new UserPhoneDO();
++        userPhoneDO.setUserId(userId);
++        userPhoneDO.setPhone(mobile);
++        userPhoneDO.setStatus(StatusEnum.VALID_STATUS.getCode());
++        userMobileMapper.insert(userPhoneDO);
++
++        return LoginChaeckDTO.loginSuccess(userId);
++    }
+ }

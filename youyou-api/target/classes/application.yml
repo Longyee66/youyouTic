@@ -1,0 +1,28 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: youyou-api-server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.32.3:8848
+        namespace: ddddfd2a-ca0d-46a8-ba2e-f74927da2350 #命名空间
+#        server-addr: 169.254.252.140:8848
+you:
+  autho:
+    token: youyou
+    exp-time: 7200000
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+    qos-enable: false         #是否使用telnet查看状态
+  registry:
+    address: nacos://192.168.32.3:8848?namespace=ddddfd2a-ca0d-46a8-ba2e-f74927da2350
+#    address: nacos://169.254.252.140:8848?namespace=98fe3fcb-6272-42c7-9914-bcebe07d683b
+    id: nacos-registry
+  protocol:                   #协议
+    name: dubbo
+    port: -1

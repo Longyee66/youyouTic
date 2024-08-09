@@ -29,6 +29,8 @@
         <mybatis-plus.version>3.5.3</mybatis-plus.version>
         <test.version>4.13.2</test.version>
         <jackson-core.version>2.15.0</jackson-core.version>
+        <cosid.version>2.6.8</cosid.version>
+        <sms.version>1.0.4</sms.version>
     </properties>
 
     <dependencyManagement>

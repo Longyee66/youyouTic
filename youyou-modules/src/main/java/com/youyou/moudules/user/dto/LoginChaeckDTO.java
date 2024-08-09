@@ -1,8 +1,6 @@
 package com.youyou.moudules.user.dto;
 
-import jdk.jpackage.internal.Log;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+
 import lombok.Data;
 
 /**

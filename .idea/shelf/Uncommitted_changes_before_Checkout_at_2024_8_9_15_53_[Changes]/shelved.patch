@@ -1,0 +1,129 @@
+Index: youyou-api/src/main/resources/application.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>server:\r\n  port: 8090\r\n\r\nspring:\r\n  application:\r\n    name: youyou-api-server\r\n  cloud:\r\n    nacos:\r\n      discovery:\r\n        server-addr: 192.168.32.3:8848\r\n        namespace: ddddfd2a-ca0d-46a8-ba2e-f74927da2350 #命名空间\r\n#        server-addr: 169.254.252.140:8848\r\n\r\n\r\ndubbo:\r\n  application:\r\n    name: ${spring.application.name}\r\n    qos-enable: false         #是否使用telnet查看状态\r\n  registry:\r\n    address: nacos://192.168.32.3:8848?namespace=ddddfd2a-ca0d-46a8-ba2e-f74927da2350\r\n#    address: nacos://169.254.252.140:8848?namespace=98fe3fcb-6272-42c7-9914-bcebe07d683b\r\n    id: nacos-registry\r\n  protocol:                   #协议\r\n    name: dubbo\r\n    port: -1
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/youyou-api/src/main/resources/application.yml b/youyou-api/src/main/resources/application.yml
+--- a/youyou-api/src/main/resources/application.yml	(revision 3a97a2f22e24249fcb578e864b47956a34214a35)
++++ b/youyou-api/src/main/resources/application.yml	(date 1723189900971)
+@@ -10,7 +10,17 @@
+         server-addr: 192.168.32.3:8848
+         namespace: ddddfd2a-ca0d-46a8-ba2e-f74927da2350 #命名空间
+ #        server-addr: 169.254.252.140:8848
++you:
++  autho:
++    token: youyou
++    expTime: 3600
+ 
++logging:
++  level:
++    com:
++      youyou:
++        api:
++          controller: info
+ 
+ dubbo:
+   application:
+Index: youyou-api/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n    <parent>\r\n        <groupId>com.youyou</groupId>\r\n        <artifactId>youyouTic-app</artifactId>\r\n        <version>1.0</version>\r\n    </parent>\r\n\r\n    <groupId>com.youyou.api</groupId>\r\n    <artifactId>youyou-api</artifactId>\r\n    <packaging>jar</packaging>\r\n\r\n    <name>youyou-api</name>\r\n    <url>http://maven.apache.org</url>\r\n\r\n    <properties>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n    </properties>\r\n\r\n    <dependencies>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-web</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.alibaba.cloud</groupId>\r\n            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.cloud</groupId>\r\n            <artifactId>spring-cloud-starter-bootstrap</artifactId>\r\n            <version>${spring-cloud-starter-bootstrap.version}</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.alibaba.cloud</groupId>\r\n            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.apache.dubbo</groupId>\r\n            <artifactId>dubbo-spring-boot-starter</artifactId>\r\n            <version>${dubbo.version}</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.cloud</groupId>\r\n            <artifactId>spring-cloud-starter-bootstrap</artifactId>\r\n            <version>${spring-cloud-starter-bootstrap.version}</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.youyou.interfaces</groupId>\r\n            <artifactId>youyou-user-interface</artifactId>\r\n            <version>1.0</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>junit</groupId>\r\n            <artifactId>junit</artifactId>\r\n            <version>${test.version}</version>\r\n            <scope>test</scope>\r\n        </dependency>\r\n    </dependencies>\r\n</project>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/youyou-api/pom.xml b/youyou-api/pom.xml
+--- a/youyou-api/pom.xml	(revision 3a97a2f22e24249fcb578e864b47956a34214a35)
++++ b/youyou-api/pom.xml	(date 1723189962692)
+@@ -52,6 +52,11 @@
+             <version>1.0</version>
+         </dependency>
+         <dependency>
++            <groupId>com.youyou.common</groupId>
++            <artifactId>youyou-common</artifactId>
++            <version>${project.version}</version>
++        </dependency>
++        <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>${test.version}</version>
+Index: youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/UserProviderApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.youyou.provider;\r\n\r\nimport org.apache.dubbo.config.spring.context.annotation.EnableDubbo;\r\nimport org.mybatis.spring.annotation.MapperScan;\r\nimport org.springframework.boot.SpringApplication;\r\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\r\nimport org.springframework.cloud.client.discovery.EnableDiscoveryClient;\r\n\r\n\r\n/**\r\n * Author: long\r\n * Description: 主启动类\r\n */\r\n@SpringBootApplication\r\n@EnableDubbo//标注是一个主启动类\r\n@EnableDiscoveryClient //开启可将其注册到nacos中\r\n@MapperScan(\"com.youyou.provider.mapper\")\r\npublic class UserProviderApplication {\r\n    public static void main(String[] args) {\r\n        SpringApplication springApplication = new SpringApplication(UserProviderApplication.class);\r\n        springApplication.run(args);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/UserProviderApplication.java b/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/UserProviderApplication.java
+--- a/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/UserProviderApplication.java	(revision 3a97a2f22e24249fcb578e864b47956a34214a35)
++++ b/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/UserProviderApplication.java	(date 1723189900946)
+@@ -5,6 +5,8 @@
+ import org.springframework.boot.SpringApplication;
+ import org.springframework.boot.autoconfigure.SpringBootApplication;
+ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
++import org.springframework.context.annotation.ComponentScan;
++import org.springframework.context.annotation.ComponentScans;
+ 
+ 
+ /**
+@@ -12,6 +14,7 @@
+  * Description: 主启动类
+  */
+ @SpringBootApplication
++@ComponentScan(value = {"com.youyou.common","com.youyou.provider"})
+ @EnableDubbo//标注是一个主启动类
+ @EnableDiscoveryClient //开启可将其注册到nacos中
+ @MapperScan("com.youyou.provider.mapper")
+Index: youyou-user/youyou-user-provider/src/test/java/com/youyou/provider/UserApplicationTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.youyou.provider;\r\n\r\nimport com.youyou.provider.mapper.UserMapper;\r\nimport jakarta.annotation.Resource;\r\nimport org.junit.Test;\r\nimport org.junit.runner.RunWith;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport org.springframework.test.context.junit4.SpringRunner;\r\n\r\n/**\r\n * Author longYee\r\n * Date 2024/8/2 16:22\r\n * Description:\r\n * Version: 1.0\r\n */\r\n@SpringBootTest(classes = UserProviderApplication.class)\r\n@RunWith(SpringRunner.class)\r\npublic class UserApplicationTest {\r\n    @Resource\r\n    private UserMapper userMapper;\r\n    @Test\r\n    public void getUserById(){\r\n        System.out.println(111111);\r\n        System.out.println(userMapper.selectById(1L));\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/youyou-user/youyou-user-provider/src/test/java/com/youyou/provider/UserApplicationTest.java b/youyou-user/youyou-user-provider/src/test/java/com/youyou/provider/UserApplicationTest.java
+--- a/youyou-user/youyou-user-provider/src/test/java/com/youyou/provider/UserApplicationTest.java	(revision 3a97a2f22e24249fcb578e864b47956a34214a35)
++++ b/youyou-user/youyou-user-provider/src/test/java/com/youyou/provider/UserApplicationTest.java	(date 1723190008017)
+@@ -7,6 +7,8 @@
+ import org.springframework.boot.test.context.SpringBootTest;
+ import org.springframework.test.context.junit4.SpringRunner;
+ 
++import java.util.Random;
++
+ /**
+  * Author longYee
+  * Date 2024/8/2 16:22
+@@ -15,12 +17,11 @@
+  */
+ @SpringBootTest(classes = UserProviderApplication.class)
+ @RunWith(SpringRunner.class)
+-public class UserApplicationTest {
++public class UserApplicationTest{
+     @Resource
+     private UserMapper userMapper;
+     @Test
+     public void getUserById(){
+-        System.out.println(111111);
+         System.out.println(userMapper.selectById(1L));
+     }
+ }
+Index: youyou-api/src/main/java/com/youyou/api/ApiSpringApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.youyou.api;\r\n\r\nimport org.apache.dubbo.config.spring.context.annotation.EnableDubbo;\r\nimport org.springframework.boot.SpringApplication;\r\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\r\n\r\n@SpringBootApplication\r\n@EnableDubbo\r\npublic class ApiSpringApplication {\r\n    public static void main(String[] args) {\r\n       SpringApplication.run(ApiSpringApplication.class,args);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/youyou-api/src/main/java/com/youyou/api/ApiSpringApplication.java b/youyou-api/src/main/java/com/youyou/api/ApiSpringApplication.java
+--- a/youyou-api/src/main/java/com/youyou/api/ApiSpringApplication.java	(revision 3a97a2f22e24249fcb578e864b47956a34214a35)
++++ b/youyou-api/src/main/java/com/youyou/api/ApiSpringApplication.java	(date 1723189900959)
+@@ -4,7 +4,7 @@
+ import org.springframework.boot.SpringApplication;
+ import org.springframework.boot.autoconfigure.SpringBootApplication;
+ 
+-@SpringBootApplication
++@SpringBootApplication(scanBasePackages = "com.youyou.common")
+ @EnableDubbo
+ public class ApiSpringApplication {
+     public static void main(String[] args) {

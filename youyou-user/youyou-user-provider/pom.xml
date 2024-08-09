@@ -78,7 +78,12 @@
         <dependency>
             <groupId>com.youyou.redis</groupId>
             <artifactId>youyou-redis-starter</artifactId>
-            <version>1.0</version>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.youyou.id</groupId>
+            <artifactId>youyou-id-generate-provider</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>
