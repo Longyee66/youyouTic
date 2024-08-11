@@ -49,9 +49,13 @@ public class SmsCCPUtils {
         sdk.setAppId(appId);
         sdk.setBodyType(BodyType.Type_JSON);
         // 发送短信
-        HashMap<String, Object> result = sdk.sendTemplateSMS(mobile, templateId, datas, subAppend, reqId);
-        return result;
-        // 发送短信
+        try {
+            HashMap<String, Object> result = sdk.sendTemplateSMS(mobile, templateId, datas, subAppend, reqId);
+            return result;
+        } catch (Exception e) {
+            log.error("发送短信失败: {}", e.getMessage());
+            return new HashMap<>();  // 返回空或错误结果
+        }
     }
 
     /**

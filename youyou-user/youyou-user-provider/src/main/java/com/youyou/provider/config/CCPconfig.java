@@ -2,7 +2,6 @@ package com.youyou.provider.config;
 
 import com.youyou.common.properties.SMSCCPProperties;
 import com.youyou.common.utils.SmsCCPUtils;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

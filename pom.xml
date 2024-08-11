@@ -17,6 +17,7 @@
         <module>youyou-common</module>
         <module>youyou-modules</module>
         <module>youyou-redis-starter</module>
+        <module>youyou-id-generate</module>
     </modules>
 
     <properties>

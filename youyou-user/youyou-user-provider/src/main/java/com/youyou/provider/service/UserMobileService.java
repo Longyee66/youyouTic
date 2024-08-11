@@ -48,16 +48,11 @@ public class UserMobileService {
         }
         //检查是否注册过
         UserPhoneDTO userPhoneDTO = queryByPhone(mobile);
-        LoginChaeckDTO loginChaeckDTO = new LoginChaeckDTO();
-        if (userPhoneDTO == null) {
-            //没有注册过，生成注册记录，插入表中,并生成token
-            return registerAndLogin(mobile);
+        if (userPhoneDTO != null) {
+            return LoginChaeckDTO.loginSuccess(userPhoneDTO.getUserId());
         }
-        //注册过，返回用户信息
-        loginChaeckDTO.setLoginStatus(true);
-        loginChaeckDTO.setUserId(userPhoneDTO.getUserId());
-        loginChaeckDTO.setDescription(MessageConstant.OPERATE_SUCCESS);
-        return loginChaeckDTO;
+        //没有注册过，生成注册记录，插入表中,并生成token
+        return registerAndLogin(mobile);
     }
 
     private LoginChaeckDTO registerAndLogin(String mobile) {
@@ -81,7 +76,7 @@ public class UserMobileService {
         //再查询mysql
         UserPhoneDO userPhoneDO = userMobileMapper.selectOne(Wrappers.<UserPhoneDO>lambdaQuery()
                 .eq(UserPhoneDO::getPhone, mobile)
-                .eq(UserPhoneDO::getStatus, StatusEnum.INVALID_STATUS.getCode())
+                .eq(UserPhoneDO::getStatus, StatusEnum.VALID_STATUS.getCode())
                 .last("limit 1"));
         if (userPhoneDO != null) {
             userPhoneDTO = CopyBeanUtils.copy(userPhoneDO, UserPhoneDTO.class);

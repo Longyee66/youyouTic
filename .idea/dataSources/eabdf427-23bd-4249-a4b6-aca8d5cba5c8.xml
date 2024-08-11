@@ -1068,7 +1068,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <CollationName>utf8mb4_general_ci</CollationName>
     </table>
     <column id="290" parent="285" name="id">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>1821921366357299203</AutoIncrement>
       <Comment>主键id</Comment>
       <DasType>bigint unsigned|0s</DasType>
       <NotNull>1</NotNull>
@@ -1166,7 +1166,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="307" parent="287" name="id">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>5</AutoIncrement>
       <Comment>主键id</Comment>
       <DasType>bigint unsigned|0s</DasType>
       <NotNull>1</NotNull>

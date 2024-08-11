@@ -4,6 +4,8 @@ import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 
 /**
@@ -11,6 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * Description: 主启动类
  */
 @SpringBootApplication
+@ComponentScan({"com.youyou.common","com.youyou.provider"})
 @EnableDubbo//标注是一个主启动类
 @EnableDiscoveryClient //开启可将其注册到nacos中
 public class UserProviderApplication {

@@ -2,6 +2,8 @@ package com.youyou.provider.service;
 //
 
 import com.youyou.common.constants.MessageConstant;
+import com.youyou.common.utils.SmsCCPUtils;
+import com.youyou.common.utils.ThreadPoolMengerUtils;
 import com.youyou.moudules.user.dto.MsgCheckDTO;
 import com.youyou.provider.entity.SmsDO;
 import com.youyou.provider.mapper.SmsMapper;
@@ -10,11 +12,13 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -38,6 +42,9 @@ public class SmsService {
     @Value("${redis.user.cache.expiration}")  // 设置缓存过期时间
     private long expiration;
 
+    @Autowired
+    private SmsCCPUtils smsCCPUtils;
+
     public boolean sendSMS(String mobile) {
         //1.参数校验
         if (!StringUtils.hasText(mobile)) {
@@ -57,11 +64,25 @@ public class SmsService {
         redisTemplate.opsForValue().set(smsCacheKey, smsCode, expiration, TimeUnit.MINUTES);
 
         // TODO 发送验证码
-        boolean sendSMS = true;
-        //发送成功保存到信息发送表中
-        insertSMSCode(mobile, smsCode);
+        ThreadPoolMengerUtils.commonAsyncPool.execute(() -> {
+            //多发几次确保成功
+            for (int i = 0; i < 3; i++) {
+                //发送成功保存到信息发送表中
+                boolean flag = sendSMSCode(mobile, smsCode);
+                if (flag){
+                    insertSMSCode(mobile, smsCode);
+                    break;
+                }
 
+            }
+        });
         return true;
+    }
+
+    private boolean sendSMSCode(String mobile, int smsCode) {
+        //发送验证码
+        HashMap<String, Object> sentResultMap = smsCCPUtils.sendVerificationCode(mobile, smsCode);
+        return smsCCPUtils.printResult(sentResultMap);
     }
 
     private void insertSMSCode(String mobile, int smsCode) {
@@ -89,6 +110,7 @@ public class SmsService {
         if (!code.equals(cacheCode) && null == cacheCode) {
             return new MsgCheckDTO(false, MessageConstant.DATA_NULL_ERROR);
         }
+        redisTemplate.delete(smsCacheKeyBuilder.buildSmsLoginCodeKey(mobile));//校验完成就删掉
         return new MsgCheckDTO(true, MessageConstant.CHECK_SUCCESS);
     }
 }

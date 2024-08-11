@@ -11,13 +11,16 @@ import com.youyou.provider.entity.UserDO;
 import com.youyou.provider.entity.UserPhoneDO;
 import com.youyou.provider.mapper.UserMapper;
 import com.youyou.provider.mapper.UserMobileMapper;
+import com.youyou.redis.build.UserCacheKeyBuilder;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -40,9 +43,10 @@ public class UserService {
     @Value("${redis.user.cache.expiration}")  // 设置缓存过期时间
     private long expiration;
 
-    @Resource
+    @DubboReference(version = "1.0.0")
     private IGenerateIDRPCService iGenerateIDRPCService;
-
+    @Resource
+    private UserCacheKeyBuilder userCacheKeyBuilder;
     /**
      * 根据用户id查询用户信息
      *
@@ -92,6 +96,7 @@ public class UserService {
         userDO.setAvatar("https://big-event-long01.oss-cn-beijing.aliyuncs.com/05cbacf8-ac2a-4115-a8e9-286eb8dcb762.jpg");
         userDO.setNickName("新用户-"+userId);
         userDO.setSex(0);
+        userMapper.insert(userDO);
 
         //向用户手机号和用户关联表中插入数据
         UserPhoneDO userPhoneDO = new UserPhoneDO();
@@ -101,5 +106,16 @@ public class UserService {
         userMobileMapper.insert(userPhoneDO);
 
         return LoginChaeckDTO.loginSuccess(userId);
+    }
+
+    public String createLoginToken(Long userId) {
+        //生产token
+        String token = UUID.randomUUID().toString();
+        //将token存储到redis中
+        String userTokenKey = userCacheKeyBuilder.buildUserPhoneKey(token);
+        redisTemplate.opsForValue().set(userTokenKey, userId, expiration, TimeUnit.MINUTES);
+
+        return token;
+
     }
 }

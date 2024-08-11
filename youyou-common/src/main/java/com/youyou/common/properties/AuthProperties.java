@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Description:
  */
 @Component
-@ConfigurationProperties(prefix = "you.autho")
+@ConfigurationProperties(prefix = "youyou.autho")
 @Data
 public class AuthProperties {
 

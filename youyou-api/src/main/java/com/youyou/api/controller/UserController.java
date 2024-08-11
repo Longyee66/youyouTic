@@ -9,13 +9,14 @@ import com.youyou.moudules.user.dto.LoginChaeckDTO;
 import com.youyou.moudules.user.dto.MobileLoginDTO;
 import com.youyou.moudules.user.dto.MsgCheckDTO;
 import com.youyou.moudules.user.dto.UserDTO;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
 
 /**
  * Author longYee
@@ -33,7 +34,7 @@ public class UserController {
     @DubboReference(version = "1.0.0")
     private IUserMobileRPCService mobileRPCService;
 
-    @Resource
+    @Autowired
     private AuthProperties authProperties;
 
     @RequestMapping("/queryUser")
@@ -51,6 +52,7 @@ public class UserController {
      */
     @PostMapping("/sendSMS")
     public Result sendSMS(String mobile) {
+        log.info("向手机：{} 发送验证码", mobile);
         if (!StringUtils.hasText(mobile)) {
             return Result.error(MessageConstant.MOBILE_NULL_ERROR);
         }
@@ -68,6 +70,7 @@ public class UserController {
      */
     @PostMapping("/mobileLogin")
     public Result mobileLogin(@RequestBody MobileLoginDTO mobileLoginDTO, HttpServletResponse response) {
+        log.info("用户登录使用手机号：{}", mobileLoginDTO.getMobile());
         if (!StringUtils.hasText(mobileLoginDTO.getMobile())) {
             return Result.error(MessageConstant.MOBILE_NULL_ERROR);
         }
@@ -89,6 +92,6 @@ public class UserController {
         cookie.setMaxAge(authProperties.getExpTime());//设置过期时间
         response.addCookie(cookie);
         //设置token
-        return Result.success();
+        return Result.success(loginChaeckDTO);
     }
 }

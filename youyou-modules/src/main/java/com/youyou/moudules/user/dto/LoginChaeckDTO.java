@@ -3,13 +3,15 @@ package com.youyou.moudules.user.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * Author 龙贵义
  * Date 2024/8/6 21:48
  * Description:
  */
 @Data
-public class LoginChaeckDTO{
+public class LoginChaeckDTO implements Serializable {
 
     //校验结果
     private boolean loginStatus;
