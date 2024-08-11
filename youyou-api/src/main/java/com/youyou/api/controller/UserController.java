@@ -77,7 +77,7 @@ public class UserController {
         if (mobileLoginDTO.getCode() < 1000 || mobileLoginDTO.getCode() > 9999) {
             return Result.error(MessageConstant.FORMAT_ERROR);
         }
-        //校验token
+        //校验code
         MsgCheckDTO msgCheckDTO = userRPCSService.checkLoginCode(mobileLoginDTO.getMobile(), mobileLoginDTO.getCode());
         if (!msgCheckDTO.isCheckStatus()) {
             return Result.error(msgCheckDTO.getDescription());

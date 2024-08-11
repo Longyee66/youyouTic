@@ -60,20 +60,36 @@ public class UserMobileService {
         LoginChaeckDTO loginChaeckDTO = userService.gennerateDefaultUserByMobile(mobile);
         //清除手机号查询的缓存（清除击穿数据）
         redisTemplate.delete(userCacheKeyBuilder.buildUserPhoneKey(mobile));
-
         return loginChaeckDTO;
     }
 
     private UserPhoneDTO queryByPhone(String mobile) {
-        //先查询redis中是否存在
         String userPhoneKey = userCacheKeyBuilder.buildUserPhoneKey(mobile);
-        UserPhoneDTO userPhoneDTO;
-        userPhoneDTO = (UserPhoneDTO) redisTemplate.opsForValue().get(userPhoneKey);
-
+        //先查询redis中是否存在
+        UserPhoneDTO userPhoneDTO = getUserKeyFromCache(userPhoneKey);
         if (userPhoneDTO != null) {
             return userPhoneDTO;
         }
         //再查询mysql
+        UserPhoneDTO userPhoneDTO1 = getUserPhoneDatabase(mobile,userPhoneKey);
+        if (userPhoneDTO1 != null) return userPhoneDTO1;
+        //防止缓存击穿
+        setUserPhoneInCache(mobile);
+        return null;
+    }
+
+    /**
+     * 防止缓存击穿
+     * @param userPhoneKey
+     */
+    private void setUserPhoneInCache(String userPhoneKey) {
+        UserPhoneDTO userPhoneDTO = new UserPhoneDTO();
+        userPhoneDTO.setId(-1L);
+        redisTemplate.opsForValue().set(userPhoneKey, userPhoneDTO, expiration, TimeUnit.SECONDS);
+    }
+
+    private UserPhoneDTO getUserPhoneDatabase(String mobile, String userPhoneKey) {
+        UserPhoneDTO userPhoneDTO;
         UserPhoneDO userPhoneDO = userMobileMapper.selectOne(Wrappers.<UserPhoneDO>lambdaQuery()
                 .eq(UserPhoneDO::getPhone, mobile)
                 .eq(UserPhoneDO::getStatus, StatusEnum.VALID_STATUS.getCode())
@@ -84,10 +100,14 @@ public class UserMobileService {
             redisTemplate.opsForValue().set(userPhoneKey, userPhoneDTO, expiration, TimeUnit.MINUTES);
             return userPhoneDTO;
         }
-        //防止缓存击穿
-        userPhoneDTO = new UserPhoneDTO();
-        userPhoneDTO.setId(-1L);
-        redisTemplate.opsForValue().set(userPhoneKey, userPhoneDTO, expiration, TimeUnit.SECONDS);
         return null;
+    }
+
+    /**
+     * 从redis中查询数据
+     * @return
+     */
+    private UserPhoneDTO getUserKeyFromCache(String userPhoneKey) {
+        return (UserPhoneDTO) redisTemplate.opsForValue().get(userPhoneKey);
     }
 }

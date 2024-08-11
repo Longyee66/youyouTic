@@ -28,60 +28,53 @@ public class SmsCCPUtils {
     private String appId;
     private String templateId;
     private boolean test;
-
     /**
-     * 发送短信
-     * 生成验证码并发送短信
-     *
-     * @param mobile 接收短信的手机号码
-     * @return 发送短信的结果
+     * 初始化
+     * @return sdk
      */
-    public HashMap<String, Object> sendVerificationCode(String mobile, Integer code) {
-        // 生成随机验证码
-//        int code = new Random().nextInt(8999) + 1000;
-        String[] datas = {String.valueOf(code), "1"};
-        String subAppend = "1234";  // 扩展码
-        String reqId = String.valueOf(new Random().nextInt(99999999));  // 生成一个随机的请求ID
+    private CCPRestSmsSDK initializeSdk() {
         CCPRestSmsSDK sdk = new CCPRestSmsSDK();
-        //初始化
         sdk.init(smsServerIp, port);
         sdk.setAccount(accountSID, accountToken);
         sdk.setAppId(appId);
         sdk.setBodyType(BodyType.Type_JSON);
-        // 发送短信
-        try {
-            HashMap<String, Object> result = sdk.sendTemplateSMS(mobile, templateId, datas, subAppend, reqId);
-            return result;
-        } catch (Exception e) {
-            log.error("发送短信失败: {}", e.getMessage());
-            return new HashMap<>();  // 返回空或错误结果
-        }
+        return sdk;
     }
 
     /**
-     * 打印短信发送结果
-     *
-     * @param result 发送短信的结果
+     * @param mobile 手机号
+     * @param code   验证码
+     * @return 响应结果
      */
+    public HashMap<String, Object> sendVerificationCode(String mobile, Integer code) {
+        CCPRestSmsSDK sdk = initializeSdk();
+        String[] datas = {String.valueOf(code), "1"};
+        String subAppend = "1234";  // 扩展码
+        String reqId = String.valueOf(new Random().nextInt(99999999));  // 生成一个随机的请求ID
+        try {
+            return sdk.sendTemplateSMS(mobile, templateId, datas, subAppend, reqId);
+        } catch (Exception e) {
+            log.error("发送短信失败:{}， {}", reqId, e.getMessage());
+            return new HashMap<>();  //返回空
+        }
+    }
+
     public boolean printResult(HashMap<String, Object> result) {
         if (test) {
             return true;
-        } else {
-            if ("000000".equals(result.get("statusCode"))) {
-                // 正常返回输出data包体信息（map）
-                HashMap<String, Object> data = (HashMap<String, Object>) result.get("data");
-                Set<String> keySet = data.keySet();
-                for (String key : keySet) {
-                    Object object = data.get(key);
-                    log.info(key + " = " + object);
-                }
-                return true;
-            } else {
-                // 异常返回输出错误码和错误信息
-                log.info("错误码={} ,错误信息= {}", result.get("statusCode"), result.get("statusMsg"));
-                return false;
-            }
         }
+        String statusCode = (String) result.get("statusCode");
+        if ("000000".equals(result.get(statusCode))) {
+            // 正常返回输出data包体信息（map）
+            HashMap<String, Object> data = (HashMap<String, Object>) result.get("data");
+            data.forEach((key, value) -> log.info(key + " = " + value));
+            return true;
+        } else {
+            // 异常返回输出错误码和错误信息
+            log.error("短信发送失败，错误码: {}, 错误信息: {}", statusCode, result.get("statusMsg"));
+            return false;
+        }
+
     }
 }
 

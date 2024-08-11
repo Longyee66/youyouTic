@@ -61,7 +61,7 @@ public class SmsService {
         }
         //如果没有，就发送验证码，并保存在redis中
         int smsCode = new Random().nextInt(8999) + 1000;
-        redisTemplate.opsForValue().set(smsCacheKey, smsCode, expiration, TimeUnit.MINUTES);
+        log.info("手机号：{}生成的验证码：{}", mobile, smsCode);
 
         // TODO 发送验证码
         ThreadPoolMengerUtils.commonAsyncPool.execute(() -> {
@@ -69,7 +69,8 @@ public class SmsService {
             for (int i = 0; i < 3; i++) {
                 //发送成功保存到信息发送表中
                 boolean flag = sendSMSCode(mobile, smsCode);
-                if (flag){
+                if (flag) {
+                    redisTemplate.opsForValue().set(smsCacheKey, smsCode, expiration, TimeUnit.MINUTES);
                     insertSMSCode(mobile, smsCode);
                     break;
                 }
@@ -96,7 +97,6 @@ public class SmsService {
 
     /**
      * 登录验证码校验
-     *
      * @param mobile 手机号
      * @param code   验证码
      */

@@ -88,24 +88,32 @@ public class UserService {
 
     public LoginChaeckDTO gennerateDefaultUserByMobile(String mobile) {
         log.info("用户手机号：{}开始注册账号",mobile);
-        //向用户表中插入数据
-        UserDO userDO = new UserDO();
+
         //TODO 生成主键ID
         Long userId = iGenerateIDRPCService.getSeqId();
-        userDO.setUserId(userId);
-        userDO.setAvatar("https://big-event-long01.oss-cn-beijing.aliyuncs.com/05cbacf8-ac2a-4115-a8e9-286eb8dcb762.jpg");
-        userDO.setNickName("新用户-"+userId);
-        userDO.setSex(0);
-        userMapper.insert(userDO);
-
+        //向用户表中插入数据
+         createUser(userId);
         //向用户手机号和用户关联表中插入数据
+        createUserAndPhone(mobile, userId);
+
+        return LoginChaeckDTO.loginSuccess(userId);
+    }
+
+    private void createUserAndPhone(String mobile, Long userId) {
         UserPhoneDO userPhoneDO = new UserPhoneDO();
         userPhoneDO.setUserId(userId);
         userPhoneDO.setPhone(mobile);
         userPhoneDO.setStatus(StatusEnum.VALID_STATUS.getCode());
         userMobileMapper.insert(userPhoneDO);
+    }
 
-        return LoginChaeckDTO.loginSuccess(userId);
+    private void createUser(Long userId) {
+        UserDO userDO = new UserDO();
+        userDO.setUserId(userId);
+        userDO.setAvatar("https://big-event-long01.oss-cn-beijing.aliyuncs.com/05cbacf8-ac2a-4115-a8e9-286eb8dcb762.jpg");
+        userDO.setNickName("新用户-"+ userId);
+        userDO.setSex(0);
+        userMapper.insert(userDO);
     }
 
     public String createLoginToken(Long userId) {
@@ -114,7 +122,6 @@ public class UserService {
         //将token存储到redis中
         String userTokenKey = userCacheKeyBuilder.buildUserPhoneKey(token);
         redisTemplate.opsForValue().set(userTokenKey, userId, expiration, TimeUnit.MINUTES);
-
         return token;
 
     }

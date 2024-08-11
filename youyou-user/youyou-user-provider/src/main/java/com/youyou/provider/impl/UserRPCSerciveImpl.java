@@ -44,7 +44,7 @@ public class UserRPCSerciveImpl implements IUserRPCSService {
         return smsService.checkLoginCode(mobile, code);
     }
 
-    //TODO 创建登录token
+    //创建登录token
     @Override
     public String createAndSaveLoginToToken(Long userId) {
         return userService.createLoginToken(userId);
