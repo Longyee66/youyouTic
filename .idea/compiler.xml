@@ -14,6 +14,7 @@
         <module name="youyou-id-generate-interface" />
         <module name="youyou-redis-starter" />
         <module name="youyou-id-generate-provider" />
+        <module name="youyou-live-gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />

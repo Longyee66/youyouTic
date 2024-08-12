@@ -1,0 +1,28 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: youyou-live-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.32.3:8848
+        namespace: ddddfd2a-ca0d-46a8-ba2e-f74927da2350
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启配置信息
+      routes: #路由
+        # 用户api代理
+        - id: user-api
+          uri: lb://youyou-api-server
+          predicates:
+            - Path=/user/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    io.netty: DEBUG
+
+
+

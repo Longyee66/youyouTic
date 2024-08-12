@@ -4,14 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ef75476-34e0-48b6-b285-21b82ca7e43a" name="Changes" comment="验证码登录与前端联调测试">
+    <list default="true" id="7ef75476-34e0-48b6-b285-21b82ca7e43a" name="Changes" comment="代码优化">
+      <change afterPath="$PROJECT_DIR$/youyou-live-gateway/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-live-gateway/src/main/java/com/youyou/gateway/UserLiveGateway.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-live-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youyou-live-gateway/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/utils/SmsCCPUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-common/src/main/java/com/youyou/common/utils/SmsCCPUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/impl/UserRPCSerciveImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/SmsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/SmsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserMobileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserMobileService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/java/com/youyou/provider/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ApiSpringApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-api/src/main/java/com/youyou/api/ApiSpringApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-modules/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-modules/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youyou-user/youyou-user-provider/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/youyou-user/youyou-user-provider/target/classes/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,36 +66,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "jdk.selected.JAVA_MODULE": "17",
-    "last_opened_file_path": "D:/000java/youyouTic/youyouTic-app/youyou-id-generate/pom.xml",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.55284554",
-    "settings.editor.selected.configurable": "mybatisx.settings",
-    "spring.configuration.checksum": "31fad9e8f8c9a024903938f9ff9a1100",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/000java/youyouTic/youyouTic-app/youyou-live-gateway/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.55284554&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;e7122ba6b3bb2a95b9c1b3d8ef564550&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -99,6 +105,7 @@
       <recent name="com.youyou.pri" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\000java\youyouTic\youyouTic-app\youyou-live-gateway\src\main\resources" />
       <recent name="D:\000java\youyouTic\youyouTic-app\youyou-redis-starter\src\main\resources" />
       <recent name="D:\000java\youyouTic\youyouTic-app\youyou-user\youyou-user-provider\src\main\java\com\youyou\provider" />
       <recent name="D:\000java\youyouTic\youyouTic-app\youyou-user\youyou-user-provider\src\main\resources" />
@@ -114,7 +121,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ApiSpringApplication">
+  <component name="RunManager" selected="Spring Boot.UserLiveGateway">
     <configuration name="IdTest.idTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="youyou-id-generate-provider" />
       <extension name="coverage">
@@ -126,22 +133,6 @@
       <option name="PACKAGE_NAME" value="com.youyou.id" />
       <option name="MAIN_CLASS_NAME" value="com.youyou.id.IdTest" />
       <option name="METHOD_NAME" value="idTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserApplicationTest.getUserById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="youyou-user-provider" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.youyou.provider.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.youyou.provider" />
-      <option name="MAIN_CLASS_NAME" value="com.youyou.provider.UserApplicationTest" />
-      <option name="METHOD_NAME" value="getUserById" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -173,6 +164,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UserLiveGateway" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="youyou-live-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.youyou.gateway.UserLiveGateway" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.youyou.gateway.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UserProviderApplication-1.0.0" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
       <module name="youyou-user-provider" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.youyou.provider.UserProviderApplication" />
@@ -188,18 +192,18 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.IdTest.idTest" />
-      <item itemvalue="JUnit.UserApplicationTest.getUserById" />
+      <item itemvalue="Spring Boot.UserLiveGateway" />
       <item itemvalue="Spring Boot.ApiSpringApplication" />
       <item itemvalue="Spring Boot.IdGenerateIdRPCService" />
       <item itemvalue="Spring Boot.UserProviderApplication-1.0.0" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.UserLiveGateway" />
         <item itemvalue="Spring Boot.ApiSpringApplication" />
-        <item itemvalue="Spring Boot.UserProviderApplication-1.0.0" />
         <item itemvalue="Spring Boot.IdGenerateIdRPCService" />
+        <item itemvalue="Spring Boot.UserProviderApplication-1.0.0" />
         <item itemvalue="JUnit.IdTest.idTest" />
-        <item itemvalue="JUnit.UserApplicationTest.getUserById" />
       </list>
     </recent_temporary>
   </component>
@@ -233,7 +237,9 @@
       <workItem from="1723192906730" duration="9858000" />
       <workItem from="1723211828338" duration="5260000" />
       <workItem from="1723257788665" duration="14535000" />
-      <workItem from="1723356749824" duration="7575000" />
+      <workItem from="1723356749824" duration="13597000" />
+      <workItem from="1723437484919" duration="7616000" />
+      <workItem from="1723449532357" duration="1736000" />
     </task>
     <task id="LOCAL-00001" summary="基础模块">
       <created>1722048102338</created>
@@ -270,7 +276,14 @@
       <option name="project" value="LOCAL" />
       <updated>1723356806811</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="代码优化">
+      <created>1723366386419</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1723366386419</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -293,7 +306,8 @@
     <MESSAGE value="基础模块--数据完善" />
     <MESSAGE value="用户id生成、用户验证码登录" />
     <MESSAGE value="验证码登录与前端联调测试" />
-    <option name="LAST_COMMIT_MESSAGE" value="验证码登录与前端联调测试" />
+    <MESSAGE value="代码优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="代码优化" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
