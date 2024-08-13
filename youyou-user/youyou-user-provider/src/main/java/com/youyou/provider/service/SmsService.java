@@ -2,6 +2,7 @@ package com.youyou.provider.service;
 //
 
 import com.youyou.common.constants.MessageConstant;
+import com.youyou.common.utils.MD5Utils;
 import com.youyou.common.utils.SmsCCPUtils;
 import com.youyou.common.utils.ThreadPoolMengerUtils;
 import com.youyou.moudules.user.dto.MsgCheckDTO;
@@ -89,7 +90,7 @@ public class SmsService {
     private void insertSMSCode(String mobile, int smsCode) {
         SmsDO smsDO = SmsDO.builder()
                 // TODO 主键生成
-                .phone(mobile)
+                .phone(MD5Utils.encryptMD5(mobile))
                 .code(smsCode)
                 .build();
         smsMapper.insert(smsDO);

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.youyou.common.constants.MessageConstant;
 import com.youyou.common.enums.StatusEnum;
 import com.youyou.common.utils.CopyBeanUtils;
+import com.youyou.common.utils.MD5Utils;
 import com.youyou.moudules.user.dto.LoginChaeckDTO;
 import com.youyou.moudules.user.dto.UserPhoneDTO;
 import com.youyou.provider.entity.UserPhoneDO;
@@ -71,6 +72,7 @@ public class UserMobileService {
             return userPhoneDTO;
         }
         //再查询mysql
+        mobile = MD5Utils.encryptMD5(mobile);
         UserPhoneDTO userPhoneDTO1 = getUserPhoneDatabase(mobile,userPhoneKey);
         if (userPhoneDTO1 != null) return userPhoneDTO1;
         //防止缓存击穿

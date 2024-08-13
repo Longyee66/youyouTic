@@ -4,6 +4,7 @@ import com.youyou.common.enums.StatusEnum;
 import com.youyou.common.properties.AuthProperties;
 import com.youyou.common.utils.BuildUserKeyUtils;
 import com.youyou.common.utils.CopyBeanUtils;
+import com.youyou.common.utils.MD5Utils;
 import com.youyou.id.inter.IGenerateIDRPCService;
 import com.youyou.moudules.user.dto.LoginChaeckDTO;
 import com.youyou.moudules.user.dto.UserDTO;
@@ -47,8 +48,6 @@ public class UserService {
     private IGenerateIDRPCService iGenerateIDRPCService;
     @Resource
     private UserCacheKeyBuilder userCacheKeyBuilder;
-    @Resource
-    private AuthProperties authProperties;
 
     /**
      * 根据用户id查询用户信息
@@ -105,7 +104,7 @@ public class UserService {
     private void createUserAndPhone(String mobile, Long userId) {
         UserPhoneDO userPhoneDO = new UserPhoneDO();
         userPhoneDO.setUserId(userId);
-        userPhoneDO.setPhone(mobile);
+        userPhoneDO.setPhone(MD5Utils.encryptMD5(mobile));
         userPhoneDO.setStatus(StatusEnum.VALID_STATUS.getCode());
         userMobileMapper.insert(userPhoneDO);
     }
