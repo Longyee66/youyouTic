@@ -1,7 +1,7 @@
 package com.youyou.provider.service;
 
-import com.alibaba.fastjson2.JSON;
 import com.youyou.common.enums.StatusEnum;
+import com.youyou.common.properties.AuthProperties;
 import com.youyou.common.utils.BuildUserKeyUtils;
 import com.youyou.common.utils.CopyBeanUtils;
 import com.youyou.id.inter.IGenerateIDRPCService;
@@ -15,10 +15,10 @@ import com.youyou.redis.build.UserCacheKeyBuilder;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -47,6 +47,9 @@ public class UserService {
     private IGenerateIDRPCService iGenerateIDRPCService;
     @Resource
     private UserCacheKeyBuilder userCacheKeyBuilder;
+    @Resource
+    private AuthProperties authProperties;
+
     /**
      * 根据用户id查询用户信息
      *
@@ -62,15 +65,15 @@ public class UserService {
         String userInfoKey = BuildUserKeyUtils.BuildUserKey(userId);
         userDTO = (UserDTO) redisTemplate.opsForValue().get(userInfoKey);
         if (null != userDTO && userDTO.getUserId() > 0) {
-            log.info("从redis中读取的数据：{}",userDTO);
+            log.info("从redis中读取的数据：{}", userDTO);
             return userDTO;
-        } else if (null != userDTO &&userDTO.getUserId() < 0) {
+        } else if (null != userDTO && userDTO.getUserId() < 0) {
             return null;
         }
         //不存在则查询数据库
         UserDO userDO = userMapper.selectById(userId);
         if (null != userDO) {
-            log.info("mysql中读取的数据：{}",userDO);
+            log.info("mysql中读取的数据：{}", userDO);
             userDTO = CopyBeanUtils.copy(userDO, UserDTO.class);
             redisTemplate.opsForValue().set(userInfoKey, userDTO, expiration, TimeUnit.MINUTES);
             return userDTO;
@@ -87,12 +90,12 @@ public class UserService {
 
 
     public LoginChaeckDTO gennerateDefaultUserByMobile(String mobile) {
-        log.info("用户手机号：{}开始注册账号",mobile);
+        log.info("用户手机号：{}开始注册账号", mobile);
 
         //TODO 生成主键ID
         Long userId = iGenerateIDRPCService.getSeqId();
         //向用户表中插入数据
-         createUser(userId);
+        createUser(userId);
         //向用户手机号和用户关联表中插入数据
         createUserAndPhone(mobile, userId);
 
@@ -111,18 +114,27 @@ public class UserService {
         UserDO userDO = new UserDO();
         userDO.setUserId(userId);
         userDO.setAvatar("https://big-event-long01.oss-cn-beijing.aliyuncs.com/05cbacf8-ac2a-4115-a8e9-286eb8dcb762.jpg");
-        userDO.setNickName("新用户-"+ userId);
+        userDO.setNickName("新用户-" + userId);
         userDO.setSex(0);
         userMapper.insert(userDO);
     }
 
     public String createLoginToken(Long userId) {
-        //生产token
+        //生成token
         String token = UUID.randomUUID().toString();
         //将token存储到redis中
         String userTokenKey = userCacheKeyBuilder.buildUserPhoneKey(token);
         redisTemplate.opsForValue().set(userTokenKey, userId, expiration, TimeUnit.MINUTES);
         return token;
 
+    }
+
+    public String checkToken(String token) {
+        String userTokenKey = userCacheKeyBuilder.buildUserPhoneKey(token);
+        Object value = redisTemplate.opsForValue().get(userTokenKey);
+        if (value != null && StringUtils.hasText(value.toString())) {
+            return value.toString();
+        }
+        return null;
     }
 }

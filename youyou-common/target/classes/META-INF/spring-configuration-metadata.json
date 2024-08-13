@@ -6,6 +6,11 @@
       "sourceType": "com.youyou.common.properties.AuthProperties"
     },
     {
+      "name": "youyou.gateway",
+      "type": "com.youyou.common.properties.GatewayWhiteListProperties",
+      "sourceType": "com.youyou.common.properties.GatewayWhiteListProperties"
+    },
+    {
       "name": "youyou.sms.ccp",
       "type": "com.youyou.common.properties.SMSCCPProperties",
       "sourceType": "com.youyou.common.properties.SMSCCPProperties"
@@ -21,6 +26,11 @@
       "name": "youyou.autho.token",
       "type": "java.lang.String",
       "sourceType": "com.youyou.common.properties.AuthProperties"
+    },
+    {
+      "name": "youyou.gateway.white-url-list",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "com.youyou.common.properties.GatewayWhiteListProperties"
     },
     {
       "name": "youyou.sms.ccp.account-s-i-d",

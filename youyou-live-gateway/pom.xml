@@ -23,7 +23,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-
         <!--微服务网关依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -48,7 +47,21 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
             <version>${spring-cloud.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.youyou.interfaces</groupId>
+            <artifactId>youyou-user-interface</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.youyou.common</groupId>
+            <artifactId>youyou-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

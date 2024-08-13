@@ -49,4 +49,9 @@ public class UserRPCSerciveImpl implements IUserRPCSService {
     public String createAndSaveLoginToToken(Long userId) {
         return userService.createLoginToken(userId);
     }
+
+    @Override
+    public String checkToken(String cookieValue) {
+        return userService.checkToken(cookieValue);
+    }
 }

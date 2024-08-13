@@ -1,7 +1,12 @@
+server:
+  port: 8090
 spring:
+  application:
+    name: youyou-api-server
   cloud:
     nacos:
       config:
         server-addr: 192.168.32.3:8848
-#         server-addr: 169.254.252.140:8848
+        namespace: ddddfd2a-ca0d-46a8-ba2e-f74927da2350
+        file-extension: yml
 

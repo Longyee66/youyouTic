@@ -36,4 +36,10 @@ public interface IUserRPCSService {
      * @return
      */
     String createAndSaveLoginToToken(Long userId);
+
+    /**
+     * @param cookieValue 前端标识符
+     * @return
+     */
+    String checkToken(String cookieValue);
 }

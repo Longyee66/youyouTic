@@ -89,7 +89,7 @@ public class UserController {
         //用户标识
         String token = userRPCSService.createAndSaveLoginToToken(loginChaeckDTO.getUserId());
         Cookie cookie = new Cookie(authProperties.getToken(), token);
-        cookie.setMaxAge(authProperties.getExpTime());//设置过期时间
+        cookie.setMaxAge(authProperties.getExpTime());//设置过期时间s
         response.addCookie(cookie);
         //设置token
         return Result.success(loginChaeckDTO);

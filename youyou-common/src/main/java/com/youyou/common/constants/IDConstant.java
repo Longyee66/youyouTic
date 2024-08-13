@@ -7,8 +7,11 @@ package com.youyou.common.constants;
  */
 public class IDConstant {
     //严格有序ID
-    public static final String ID_SEQUENCE="sequence";
+    public static final String ID_SEQUENCE = "sequence";
 
     //非严格有序ID
-    public static final String ID_SNOWFLAKE="snowflakeId";
+    public static final String ID_SNOWFLAKE = "snowflakeId";
+
+    //用户id
+    public static final String USER_ID = "user_id";
 }
