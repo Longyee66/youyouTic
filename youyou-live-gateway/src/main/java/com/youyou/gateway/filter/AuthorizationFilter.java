@@ -40,7 +40,7 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
     private GatewayWhiteListProperties gatewayWhiteListProperties;
     @Resource
     private AuthProperties authProperties;
-    @DubboReference(version = "1.0.0")
+    @DubboReference(version = "1.0.0",check = false)
     private IUserRPCSService userRPCSService;
 
     @Override
