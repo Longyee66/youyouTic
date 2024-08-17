@@ -32,11 +32,6 @@
       <artifactId>youyou-modules</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>com.youyou.id</groupId>
-      <artifactId>youyou-id-generate</artifactId>
-      <version>${project.version}</version>
-    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -46,6 +41,7 @@
         <version>3.0.4</version>
         <configuration>
           <classifier>exec</classifier>
+          <mainClass>com.youyou.provider.UserProviderApplication</mainClass>
         </configuration>
         <executions>
           <execution>

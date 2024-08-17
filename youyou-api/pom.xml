@@ -71,6 +71,7 @@
                 <version>3.0.4</version>
                 <configuration>
                     <classifier>exec</classifier>
+                    <mainClass>com.youyou.api.ApiSpringApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

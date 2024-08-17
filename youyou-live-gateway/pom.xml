@@ -71,7 +71,15 @@
                 <version>3.0.4</version>
                 <configuration>
                     <classifier>exec</classifier>
+                    <mainClass>com.youyou.gateway.UserLiveGateway</mainClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

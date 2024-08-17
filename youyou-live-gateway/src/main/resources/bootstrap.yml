@@ -9,10 +9,6 @@ spring:
         server-addr: 192.168.32.3:8848
         namespace: ddddfd2a-ca0d-46a8-ba2e-f74927da2350
         file-extension: yml
-        shared-configs: #公共配置提取
-          - data-id: youyou-common-dubbo.yml
-            refresh: true
-
 
   # 解决包冲突问题
   main:

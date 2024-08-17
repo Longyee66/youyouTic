@@ -14,4 +14,7 @@ public class IDConstant {
 
     //用户id
     public static final String USER_ID = "user_id";
+
+    //电影key
+    public static final String MOVIE_KEY = "movie:movieList";
 }
